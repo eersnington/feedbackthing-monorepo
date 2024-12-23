@@ -23,7 +23,6 @@
     "@repo/seo": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@sentry/nextjs": "^8.43.0",
-    "autoprefixer": "^10.4.20",
     "date-fns": "^4.1.0",
     "fumadocs-core": "^14.6.0",
     "import-in-the-middle": "^1.11.3",

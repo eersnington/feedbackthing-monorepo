@@ -25,7 +25,6 @@
     "@repo/tailwind-config": "workspace:*",
     "@repo/webhooks": "workspace:*",
     "@sentry/nextjs": "^8.43.0",
-    "autoprefixer": "^10.4.20",
     "fuse.js": "^7.0.0",
     "import-in-the-middle": "^1.11.3",
     "lucide-react": "^0.468.0",

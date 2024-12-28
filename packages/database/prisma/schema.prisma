@@ -9,13 +9,212 @@ generator client {
 datasource db {
   provider     = "postgresql"
   url          = env("DATABASE_URL")
-  relationMode = "prisma"
 }
 
-// This is a stub model.
-// Delete it and add your own Prisma models.
-model Page {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model changelog_subscribers {
+  id         String   @id @default(cuid())
+  project_id String
+  email      String
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  projects   projects @relation(fields: [project_id], references: [id], onDelete: Cascade)
+}
+
+model changelogs {
+  id           String    @id @default(cuid())
+  title        String    @default("")
+  content      String?
+  project_id   String   
+  publish_date DateTime? @default(now()) @db.Timestamptz(6)
+  published    Boolean
+  summary      String?
+  image        String?
+  author_id    String   
+  slug         String    @default("")
+  profiles     profiles  @relation(fields: [author_id], references: [id], onDelete: Cascade)
+  projects     projects  @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model feedback {
+  id                String              @id @default(cuid())
+  created_at        DateTime            @default(now()) @db.Timestamptz(6)
+  title             String
+  description       String
+  status            String?
+  upvotes           BigInt              @default(0)
+  user_id           String              
+  project_id        String              
+  raw_tags          Json[]              @db.Json
+  comment_count     BigInt              @default(0)
+  projects          projects            @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  profiles          profiles            @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  feedback_comments feedback_comments[]
+  feedback_upvoters feedback_upvoters[]
+  notifications     notifications[]
+}
+
+model feedback_comments {
+  id                      String              @id @default(cuid())
+  user_id                 String              
+  feedback_id             String              
+  content                 String
+  created_at              DateTime            @default(now()) @db.Timestamptz(6)
+  upvotes                 BigInt              @default(0)
+  upvoters                String[]            
+  reply_to_id             String?             
+  feedback                feedback            @relation(fields: [feedback_id], references: [id], onDelete: Cascade)
+  feedback_comments       feedback_comments?  @relation("feedback_commentsTofeedback_comments", fields: [reply_to_id], references: [id], onDelete: Cascade)
+  other_feedback_comments feedback_comments[] @relation("feedback_commentsTofeedback_comments")
+  profiles                profiles            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  notifications           notifications[]
+}
+
+model feedback_tags {
+  id         String   @id @default(cuid())
+  name       String
+  color      String
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  project_id String   
+  projects   projects @relation(fields: [project_id], references: [id], onDelete: Cascade)
+}
+
+model feedback_upvoters {
+  id          String   @id(map: "feedback_upvoteres_pkey") @default(cuid())
+  feedback_id String   
+  profile_id  String   
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  feedback    feedback @relation(fields: [feedback_id], references: [id], onDelete: Cascade)
+  profiles    profiles @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+}
+
+model notifications {
+  id                String             @id @default(cuid())
+  project_id        String             
+  has_archived      String[]           
+  created_at        DateTime           @default(now()) @db.Timestamptz(6)
+  initiator_id      String             
+  type              notification_types
+  feedback_id       String             
+  comment_id        String?            
+  feedback_comments feedback_comments? @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+  feedback          feedback           @relation(fields: [feedback_id], references: [id], onDelete: Cascade)
+  profiles          profiles           @relation(fields: [initiator_id], references: [id], onDelete: Cascade)
+  projects          projects           @relation(fields: [project_id], references: [id], onDelete: Cascade)
+}
+
+model profiles {
+  id                String              @id @default(cuid())
+  avatar_url        String?
+  email             String
+  changelogs        changelogs[]
+  feedback          feedback[]
+  feedback_comments feedback_comments[]
+  feedback_upvoters feedback_upvoters[]
+  notifications     notifications[]
+  project_api_keys  project_api_keys[]
+  project_invites   project_invites[]
+  project_members   project_members[]
+}
+
+model project_api_keys {
+  id          String     @id @default(cuid())
+  name        String
+  permission  token_type
+  token       String
+  short_token String
+  created_at  DateTime   @default(now()) @db.Timestamptz(6)
+  project_id  String    
+  creator_id  String     
+  profiles    profiles   @relation(fields: [creator_id], references: [id], onDelete: Cascade)
+  projects    projects   @relation(fields: [project_id], references: [id], onDelete: Cascade)
+}
+
+model project_configs {
+  id                                String     @id(map: "project_config_pkey") @default(cuid())
+  created_at                        DateTime   @default(now()) @db.Timestamptz(6)
+  changelog_twitter_handle          String?
+  changelog_preview_style           String     @default("summary")
+  project_id                        String     
+  integration_discord_status        Boolean    @default(false)
+  integration_discord_webhook       String?
+  integration_discord_role_id       String?
+  custom_domain                     String?    @unique
+  custom_domain_verified            Boolean?
+  integration_sso_secret            String?
+  integration_sso_status            Boolean?
+  integration_sso_url               String?
+  custom_theme                      theme_type @default(default)
+  custom_theme_accent               String?
+  custom_theme_background           String?
+  custom_theme_border               String?
+  custom_theme_primary_foreground   String?
+  custom_theme_root                 String?
+  custom_theme_secondary_background String?
+  feedback_allow_anon_upvoting      Boolean?
+  logo_redirect_url                 String?
+  integration_slack_status          Boolean    @default(false)
+  integration_slack_webhook         String?
+  changelog_enabled                 Boolean    @default(true)
+  projects                          projects   @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model project_invites {
+  id         String   @id @default(cuid())
+  project_id String   
+  creator_id String   
+  email      String
+  accepted   Boolean  @default(false)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  profiles   profiles @relation(fields: [creator_id], references: [id], onDelete: Cascade)
+  projects   projects @relation(fields: [project_id], references: [id], onDelete: Cascade)
+}
+
+model project_members {
+  id         String    @id @default(cuid())
+  project_id String    
+  member_id  String    
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  profiles   profiles  @relation(fields: [member_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  projects   projects  @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model projects {
+  id                    String                  @id @default(cuid())
+  created_at            DateTime?               @default(now()) @db.Timestamptz(6)
+  name                  String
+  slug                  String                  @unique
+  icon                  String?
+  icon_radius           String?                 @default("rounded-md")
+  og_image              String?
+  changelog_subscribers changelog_subscribers[]
+  changelogs            changelogs[]
+  feedback              feedback[]
+  feedback_tags         feedback_tags[]
+  notifications         notifications[]
+  project_api_keys      project_api_keys[]
+  project_configs       project_configs[]
+  project_invites       project_invites[]
+  project_members       project_members[]
+}
+
+model waitlist {
+  id         String   @id @default(cuid())
+  name       String
+  email      String   @unique
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+}
+
+enum notification_types {
+  comment
+  post
+}
+
+enum theme_type {
+  default
+  light
+  custom
+}
+
+enum token_type {
+  full_access
+  public_access
 }

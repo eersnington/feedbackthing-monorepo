@@ -14,6 +14,8 @@
     "@radix-ui/react-icons": "^1.3.2",
     "@repo/cms": "workspace:*",
     "@repo/design-system": "workspace:*",
+    "@repo/tiptap-editor": "workspace:*",
+    "@repo/database": "workspace:*",
     "@repo/email": "workspace:*",
     "@repo/env": "workspace:*",
     "@repo/feature-flags": "workspace:*",

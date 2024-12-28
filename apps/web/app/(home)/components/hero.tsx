@@ -35,7 +35,7 @@ export const Hero = async () => {
             </Feed>
           </div>
           <div className="flex flex-col gap-4">
-            <h1 className="max-w-2xl text-center font-regular text-5xl tracking-tighter md:text-7xl">
+            <h1 className="max-w-2xl bg-gradient-to-t from-[#c7d2fe] to-[#8678f9] bg-clip-text text-center font-regular text-5xl text-transparent tracking-tighter md:text-7xl">
               Listen to your users and build what matters.
             </h1>
             <p className="max-w-2xl text-center text-lg text-muted-foreground leading-relaxed tracking-tight md:text-xl">

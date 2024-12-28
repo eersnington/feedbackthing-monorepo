@@ -8,6 +8,20 @@ export const Footer = () => {
       title: 'Home',
       href: '/',
       description: '',
+      items: [
+        {
+          title: 'Features',
+          href: '/features',
+        },
+        {
+          title: 'Pricing',
+          href: '/pricing',
+        },
+        {
+          title: 'Contact',
+          href: '/contact',
+        },
+      ],
     },
     {
       title: 'Pages',
@@ -16,6 +30,18 @@ export const Footer = () => {
         {
           title: 'Blog',
           href: '/blog',
+        },
+        {
+          title: 'Changelog',
+          href: '/changelog',
+        },
+        {
+          title: 'Roadmap',
+          href: '/roadmap',
+        },
+        {
+          title: 'Support',
+          href: '/support',
         },
       ],
     },
@@ -34,6 +60,10 @@ export const Footer = () => {
         {
           title: 'Acceptable Use',
           href: '/legal/acceptable-use',
+        },
+        {
+          title: 'Refund Policy',
+          href: '/legal/refund',
         },
       ],
     },

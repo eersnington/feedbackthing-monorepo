@@ -7,6 +7,7 @@ import type { ReactNode } from 'react';
 import { Toaster } from 'sonner';
 import { Footer } from './components/footer';
 import { Header } from './components/header';
+import HomeNav from '@/components/header';
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
@@ -21,7 +22,8 @@ const RootLayout = ({ children }: RootLayoutProperties) => (
     <body>
       <DesignSystemProvider>
         <Toaster />
-        <Header />
+        {/* <Header /> */}
+        <HomeNav />
         {children}
         <Footer />
       </DesignSystemProvider>

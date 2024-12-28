@@ -40,8 +40,6 @@
     "@repo/auth": "workspace:*",
     "@repo/env": "workspace:*",
     "@repo/observability": "workspace:*",
-    "@tiptap/react": "^2.10.4",
-    "@tiptap/starter-kit": "^2.10.4",
     "@vercel/toolbar": "^0.1.28",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

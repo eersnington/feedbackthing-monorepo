@@ -1,120 +1,20 @@
 'use client';
 
-import { StatusCombobox } from '@/components/dashboard/status-combobox';
-import { TagCombobox } from '@/components/dashboard/tag-combobox';
-import BentoCardWrapper from '@/components/home/spotlight-card';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@repo/design-system/components/ui/avatar';
 import { Button } from '@repo/design-system/components/ui/button';
-import { Textarea } from '@repo/design-system/components/ui/textarea';
 import { PROSE_CN } from '@repo/design-system/lib/constants';
 import { cn } from '@repo/design-system/lib/utils';
-import {
-  CheckCircle,
-  ChevronUp,
-  FileText,
-  Layout,
-  RefreshCcw,
-  User,
-  Users,
-} from 'lucide-react';
+import RichTextEditor from '@repo/tiptap-editor/components/tiptap-editor';
+import { ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-
-export const Features = () => (
-  <div className="w-full py-20 lg:py-40">
-    <div className="container mx-auto">
-      <div className="flex flex-col gap-10">
-        <div className="flex flex-col items-start gap-4">
-          <div className="flex flex-col gap-2">
-            <h2 className="max-w-xl text-left font-regular text-3xl tracking-tighter md:text-5xl">
-              Why Feedbackthing?
-            </h2>
-            <p className="max-w-xl text-left text-lg text-muted-foreground leading-relaxed tracking-tight lg:max-w-lg">
-              Discover the easiest way to collect feedback, prioritize features,
-              and share updates with your users.
-            </p>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="flex aspect-square flex-col justify-between rounded-md bg-muted p-6">
-            <User className="h-8 w-8 stroke-1" />
-            <div className="flex flex-col">
-              <h3 className="text-xl tracking-tight">
-                Collect Feedback with Ease
-              </h3>
-              <p className="max-w-xs text-base text-muted-foreground">
-                Provide users with a simple platform to share their ideas,
-                issues, and feature requests.
-              </p>
-            </div>
-          </div>
-          <div className="flex aspect-square flex-col justify-between rounded-md bg-muted p-6">
-            <CheckCircle className="h-8 w-8 stroke-1" />
-            <div className="flex flex-col">
-              <h3 className="text-xl tracking-tight">
-                Understand What Users Want
-              </h3>
-              <p className="max-w-xs text-base text-muted-foreground">
-                Empower users to vote on features, helping you focus on what
-                matters most.
-              </p>
-            </div>
-          </div>
-          <div className="flex aspect-square flex-col justify-between rounded-md bg-muted p-6">
-            <FileText className="h-8 w-8 stroke-1" />
-            <div className="flex flex-col">
-              <h3 className="text-xl tracking-tight">
-                Organize and Prioritize
-              </h3>
-              <p className="max-w-xs text-base text-muted-foreground">
-                Use tags, categories, and statuses to turn raw feedback into
-                actionable insights.
-              </p>
-            </div>
-          </div>
-          <div className="flex aspect-square flex-col justify-between rounded-md bg-muted p-6">
-            <RefreshCcw className="h-8 w-8 stroke-1" />
-            <div className="flex flex-col">
-              <h3 className="text-xl tracking-tight">
-                Keep Everyone in the Loop
-              </h3>
-              <p className="max-w-xs text-base text-muted-foreground">
-                Share progress updates with a clean, user-friendly changelog.
-              </p>
-            </div>
-          </div>
-          <div className="flex aspect-square flex-col justify-between rounded-md bg-muted p-6">
-            <Users className="h-8 w-8 stroke-1" />
-            <div className="flex flex-col">
-              <h3 className="text-xl tracking-tight">
-                Effortless Collaboration
-              </h3>
-              <p className="max-w-xs text-base text-muted-foreground">
-                Invite team members to manage and act on feedback together.
-              </p>
-            </div>
-          </div>
-          <div className="flex aspect-square flex-col justify-between rounded-md bg-muted p-6">
-            <Layout className="h-8 w-8 stroke-1" />
-            <div className="flex flex-col">
-              <h3 className="text-xl tracking-tight">
-                Customizable to Your Brand
-              </h3>
-              <p className="max-w-xs text-base text-muted-foreground">
-                Tailor the platform to match your branding for a seamless user
-                experience.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+import { StatusCombobox } from '../dashboard/status-combobox';
+import { TagCombobox } from '../dashboard/tag-combobox';
+import BentoCardWrapper from './spotlight-card';
 
 const demoTags = [
   {
@@ -261,7 +161,7 @@ export default function FeedbackSection() {
               <div className="mt-3 flex h-full flex-col items-start gap-3">
                 <TagCombobox
                   projectTags={demoTags}
-                  onSelect={(tags: string | string[]) =>
+                  onSelect={(tags) =>
                     demoTags.filter((tag) => tags.includes(tag.value))
                   }
                   triggerClassName="w-full sm:w-full mt-5"
@@ -287,19 +187,13 @@ export default function FeedbackSection() {
 
             <div className="prose-invert mt-8 mb-2 flex h-[98px] w-full flex-col items-center justify-end rounded-sm border p-4">
               {/* Editable Comment div with placeholder */}
-              {/* <RichTextEditor
+              <RichTextEditor
                 content={commentContent}
                 setContent={setCommentContent}
                 placeholder="Write your comment here..."
                 characterLimit={50}
                 className="overflow-auto"
                 proseInvert
-              /> */}
-              <Textarea
-                value={commentContent}
-                onChange={(e) => setCommentContent(e.target.value)}
-                placeholder="Write your comment here..."
-                className="h-full w-full"
               />
 
               {/* Bottom Row */}

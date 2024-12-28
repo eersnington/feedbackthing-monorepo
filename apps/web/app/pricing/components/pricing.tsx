@@ -6,7 +6,7 @@ const pricingPlans = [
   {
     title: 'Hobby',
     description:
-      'Our goal is to streamline SMB trade, making it easier and faster than ever for everyone and everywhere.',
+      'Get started with the essentials for free. Ideal for testing the waters and collecting feedback on a small scale.',
     price: 'Free',
     buttonText: 'Get Started for Free',
     buttonLink: env.NEXT_PUBLIC_APP_URL,
@@ -14,7 +14,7 @@ const pricingPlans = [
   {
     title: 'Lite',
     description:
-      'Our goal is to streamline SMB trade, making it easier and faster than ever for everyone and everywhere.',
+      'Upgrade to handle growing needs with more projects and customization options. Perfect for side hustles or solopreneurs.',
     price: '$14',
     buttonText: 'Get Started for Free',
     buttonLink: env.NEXT_PUBLIC_APP_URL,
@@ -23,7 +23,7 @@ const pricingPlans = [
   {
     title: 'Growth',
     description:
-      'Our goal is to streamline SMB trade, making it easier and faster than ever for everyone and everywhere.',
+      'Scale effortlessly with advanced features and integrations to manage multiple projects and larger teams efficiently.',
     price: '$28',
     buttonText: 'Get Started for Free',
     buttonLink: env.NEXT_PUBLIC_APP_URL,
@@ -41,6 +41,12 @@ const features = [
   { feature: 'Custom Domain', startup: false, growth: true, enterprise: true },
   {
     feature: 'Analytics',
+    startup: false,
+    growth: true,
+    enterprise: true,
+  },
+  {
+    feature: 'API Access',
     startup: false,
     growth: true,
     enterprise: true,

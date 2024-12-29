@@ -8,9 +8,9 @@ import FeedbackSection from './components/features';
 import { Hero } from './components/hero';
 
 const meta = {
-  title: 'From zero to production in minutes.',
+  title: 'Collect user feedback, build roadmaps and changelogs',
   description:
-    "next-forge is a production-grade boilerplate for modern Next.js apps. It's designed to have everything you need to build your new SaaS app as quick as possible. Authentication, billing, analytics, SEO, and more. It's all here.",
+    'Feedbackthing allows you to validate features with your users, collect feedback, build roadmaps and changelogs, all in one place. Build better products with Feedbackthing.',
 };
 
 export const metadata: Metadata = createMetadata(meta);

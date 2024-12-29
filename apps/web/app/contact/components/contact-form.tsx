@@ -1,116 +1,128 @@
 'use client';
 
 import { Button } from '@repo/design-system/components/ui/button';
-import { Calendar } from '@repo/design-system/components/ui/calendar';
 import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@repo/design-system/components/ui/popover';
-import { cn } from '@repo/design-system/lib/utils';
-import { format } from 'date-fns';
-import { CalendarIcon, Check, MoveRight } from 'lucide-react';
+import { Textarea } from '@repo/design-system/components/ui/textarea';
+import { Check, MoveRight } from 'lucide-react';
+import type React from 'react';
 import { useState } from 'react';
+import { toast } from 'sonner';
+import { contact } from '../actions/contact';
 
 export const ContactForm = () => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [isLoading, setIsLoading] = useState(false);
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsLoading(true);
+
+    const formData = new FormData(event.currentTarget);
+    const name = `${formData.get('firstname')} ${formData.get('lastname')}`;
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
+
+    toast.promise(contact(name, email, message), {
+      loading: 'Sending your message...',
+      success: () => {
+        (event.target as HTMLFormElement).reset();
+        setIsLoading(false);
+        return "Message sent successfully! We'll get back to you soon.";
+      },
+      error: (err) => {
+        setIsLoading(false);
+        return err instanceof Error ? err.message : 'Failed to send message';
+      },
+    });
+  }
 
   return (
-    <div className="w-full py-20 lg:py-40">
-      <div className="container mx-auto max-w-6xl">
-        <div className="grid gap-10 lg:grid-cols-2">
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2">
-                <h4 className="max-w-xl text-left font-regular text-3xl tracking-tighter md:text-5xl">
-                  Something new
-                </h4>
-                <p className="max-w-sm text-left text-lg text-muted-foreground leading-relaxed tracking-tight">
-                  Managing a small business today is already tough. Avoid
-                  further complications by ditching outdated, tedious trade
-                  methods.
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-row items-start gap-6 text-left">
-              <Check className="mt-2 h-4 w-4 text-primary" />
-              <div className="flex flex-col gap-1">
-                <p>Easy to use</p>
-                <p className="text-muted-foreground text-sm">
-                  We&apos;ve made it easy to use and understand.
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-row items-start gap-6 text-left">
-              <Check className="mt-2 h-4 w-4 text-primary" />
-              <div className="flex flex-col gap-1">
-                <p>Fast and reliable</p>
-                <p className="text-muted-foreground text-sm">
-                  We&apos;ve made it easy to use and understand.
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-row items-start gap-6 text-left">
-              <Check className="mt-2 h-4 w-4 text-primary" />
-              <div className="flex flex-col gap-1">
-                <p>Beautiful and modern</p>
-                <p className="text-muted-foreground text-sm">
-                  We&apos;ve made it easy to use and understand.
-                </p>
-              </div>
-            </div>
+    <section className="container mx-auto max-w-5xl px-4 py-16 md:py-24">
+      <div className="grid gap-16 md:grid-cols-2 md:gap-24">
+        <div className="space-y-8">
+          <div className="space-y-6">
+            <h1 className="font-semibold text-3xl tracking-tight md:text-4xl">
+              Let's talk about feedback
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Want to learn more about how Feedbackthing can help improve your
+              product? Get in touch!
+            </p>
           </div>
 
-          <div className="flex items-center justify-center">
-            <div className="flex max-w-sm flex-col gap-4 rounded-md border p-8">
-              <p>Book a meeting</p>
-              <div className="grid w-full max-w-sm items-center gap-1">
-                <Label htmlFor="picture">Date</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        'w-full max-w-sm justify-start text-left font-normal',
-                        !date && 'text-muted-foreground'
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {date ? format(date, 'PPP') : <span>Pick a date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={setDate}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <Check className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-medium">Streamline Feedback Collection</p>
+                <p className="text-muted-foreground text-sm">
+                  Easily centralize and organize feedback from your users in one
+                  place
+                </p>
               </div>
-              <div className="grid w-full max-w-sm items-center gap-1">
-                <Label htmlFor="firstname">First name</Label>
-                <Input id="firstname" type="text" />
+            </div>
+            <div className="flex items-start gap-3">
+              <Check className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-medium">Turn Insights into Action</p>
+                <p className="text-muted-foreground text-sm">
+                  Identify trends and prioritize features based on real user
+                  needs.
+                </p>
               </div>
-              <div className="grid w-full max-w-sm items-center gap-1">
-                <Label htmlFor="lastname">Last name</Label>
-                <Input id="lastname" type="text" />
+            </div>
+            <div className="flex items-start gap-3">
+              <Check className="h-5 w-5 text-primary" />
+              <div>
+                <p className="font-medium">Collaborative Discussions</p>
+                <p className="text-muted-foreground text-sm">
+                  Enable meaningful conversations with your users through
+                  changelogs and feedback boards.
+                </p>
               </div>
-              <div className="grid w-full max-w-sm items-center gap-1">
-                <Label htmlFor="picture">Upload resume</Label>
-                <Input id="picture" type="file" />
-              </div>
-
-              <Button className="w-full gap-4">
-                Book the meeting <MoveRight className="h-4 w-4" />
-              </Button>
             </div>
           </div>
         </div>
+
+        <div>
+          <form onSubmit={onSubmit} className="space-y-6 rounded-lg border p-8">
+            <div className="space-y-4">
+              <h2 className="font-semibold text-xl">Contact us</h2>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="firstname">First name</Label>
+                  <Input id="firstname" name="firstname" required />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lastname">Last name</Label>
+                  <Input id="lastname" name="lastname" required />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" name="email" type="email" required />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="message">Message</Label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={4}
+                  placeholder="Tell us how we can help..."
+                />
+              </div>
+            </div>
+
+            <Button className="w-full gap-2" disabled={isLoading}>
+              {isLoading ? 'Sending...' : 'Send message'}
+              <MoveRight className="h-4 w-4" />
+            </Button>
+          </form>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };

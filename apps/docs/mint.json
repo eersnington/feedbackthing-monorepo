@@ -23,12 +23,12 @@
    "topbarLinks": [
     {
       "name": "Sign In",
-      "url": "https://app.feedbackthing.pro/sign-in"
+      "url": "https://dash.feedbackthing.pro/sign-in"
     }
   ],
   "topbarCtaButton": {
     "name": "Get Started",
-    "url": "https://app.feedbackthing.pro/sign-up"
+    "url": "https://dash.feedbackthing.pro/sign-up"
   },
   "tabs": [
     {

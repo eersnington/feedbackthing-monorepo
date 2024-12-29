@@ -1,29 +1,34 @@
 {
-  "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "$schema": "https://feedbackthing.pro/schema.json",
+  "name": "Feedbackthing Docs",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/logo/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#8F9EFF",
+    "light": "#e1e1e1",
+    "dark": "#06060A",
+    "background": {
+      "light": "#fff",
+      "dark": "#06060A"
+    },
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#030303",
+      "to": "#030303"
     }
   },
-  "topbarLinks": [
+  "openapi": "https://api.feedbackthing.pro/v1",
+   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:support@mintlify.com"
+      "name": "Sign In",
+      "url": "https://app.feedbackthing.pro/sign-in"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Get Started",
+    "url": "https://app.feedbackthing.pro/sign-up"
   },
   "tabs": [
     {
@@ -33,53 +38,118 @@
   ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "name": "Public Hub",
+      "icon": "people-group",
+      "url": "https://hub.feedbackthing.pro"
     },
     {
       "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "icon": "discord",
+      "url": "https://feedbackthing.pro/discord"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://feedbackthing.pro/blog"
     }
   ],
   "navigation": [
     {
-      "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
+      "group": "Introduction",
+      "pages": ["introduction"]
     },
     {
-      "group": "Essentials",
-      "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
-      ]
+      "group": "Integrations",
+      "pages": ["integrations/sso"]
     },
     {
       "group": "API Documentation",
       "pages": ["api-reference/introduction"]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Public API",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/endpoint/public/get--changelogs",
+        "api-reference/endpoint/public/get--atom"
+      ]
+    },
+    {
+      "group": "Project API",
+      "pages": [
+        {
+          "group": "Project",
+          "pages": [
+            "api-reference/endpoint/project/get-projects",
+            "api-reference/endpoint/project/patch-projects",
+            "api-reference/endpoint/project/delete-projects"
+          ]
+        },
+        {
+          "group": "Project Invites",
+          "pages": [
+            "api-reference/endpoint/project-invites/get-projects-invites",
+            "api-reference/endpoint/project-invites/post-projects-invites",
+            "api-reference/endpoint/project-invites/delete-projects-invites"
+          ]
+        },
+        {
+          "group": "Project Members",
+          "pages": [
+            "api-reference/endpoint/project-members/get-projects-members"
+          ]
+        },
+        {
+          "group": "Project Config",
+          "pages": [
+            "api-reference/endpoint/project-config/get-projects-config",
+            "api-reference/endpoint/project-config/patch-projects-config"
+          ]
+        },
+        {
+          "group": "Changelog",
+          "pages": [
+            "api-reference/endpoint/changelog/get-projects-changelogs",
+            "api-reference/endpoint/changelog/post-projects-changelogs",
+            "api-reference/endpoint/changelog/patch-projects-changelogs",
+            "api-reference/endpoint/changelog/delete-projects-changelogs"
+          ]
+        },
+        {
+          "group": "Feedback",
+          "pages": [
+            "api-reference/endpoint/feedback/get-projects-feedback-all",
+            "api-reference/endpoint/feedback/get-projects-feedback",
+            "api-reference/endpoint/feedback/get-projects-feedback-upvotes",
+            "api-reference/endpoint/feedback/post-projects-feedback",
+            "api-reference/endpoint/feedback/patch-projects-feedback",
+            "api-reference/endpoint/feedback/delete-projects-feedback"
+          ]
+        },
+        {
+          "group": "Feedback Tags",
+          "pages": [
+            "api-reference/endpoint/feedback-tags/get-projects-feedback-tags",
+            "api-reference/endpoint/feedback-tags/post-projects-feedback-tags",
+            "api-reference/endpoint/feedback-tags/delete-projects-feedback-tags"
+          ]
+        },
+        {
+          "group": "Feedback Comments",
+          "pages": [
+            "api-reference/endpoint/feedback-comments/get-projects-feedback-comments",
+            "api-reference/endpoint/feedback-comments/delete-projects-feedback-comments"
+          ]
+        }
       ]
     }
   ],
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintlify"
+    "twitter": "https://twitter.com/eersnigton",
+    "discord": "https://feedbackthing.pro/discord"
   }
 }

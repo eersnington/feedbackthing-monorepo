@@ -15,7 +15,7 @@ const pricingPlans = [
     title: 'Lite',
     description:
       'Upgrade to handle growing needs with more projects and customization options. Perfect for side hustles or solopreneurs.',
-    price: '$14',
+    price: '$16',
     buttonText: 'Get Started for Free',
     buttonLink: env.NEXT_PUBLIC_APP_URL,
     isPopular: true,
@@ -24,7 +24,7 @@ const pricingPlans = [
     title: 'Growth',
     description:
       'Scale effortlessly with advanced features and integrations to manage multiple projects and larger teams efficiently.',
-    price: '$28',
+    price: '$32',
     buttonText: 'Get Started for Free',
     buttonLink: env.NEXT_PUBLIC_APP_URL,
   },
@@ -48,7 +48,7 @@ const features = [
   {
     feature: 'API Access',
     startup: false,
-    growth: true,
+    growth: false,
     enterprise: true,
   },
   {

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://feedbackthing.pro/schema.json",
+  "$schema": "https://mintlify.com/schema.json",
   "name": "Feedbackthing Docs",
   "logo": {
     "dark": "/logo/dark.svg",

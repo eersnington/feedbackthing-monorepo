@@ -11,6 +11,7 @@ const meta = {
   title: 'Collect user feedback, build roadmaps and changelogs',
   description:
     'Feedbackthing allows you to validate features with your users, collect feedback, build roadmaps and changelogs, all in one place. Build better products with Feedbackthing.',
+  image: 'https://www.feedbackthing.pro/og-image.png',
 };
 
 export const metadata: Metadata = createMetadata(meta);

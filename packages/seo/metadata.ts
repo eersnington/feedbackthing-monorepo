@@ -48,6 +48,7 @@ export const createMetadata = ({
       card: 'summary_large_image',
       creator: twitterHandle,
     },
+    metadataBase: new URL('https://www.feedbackthing.pro/'),
   };
 
   const metadata: Metadata = merge(defaultMetadata, properties);

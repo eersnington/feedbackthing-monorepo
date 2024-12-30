@@ -1,8 +1,9 @@
+import { DiscordLogoIcon } from '@radix-ui/react-icons';
 import { blog } from '@repo/cms';
 import { Feed } from '@repo/cms/components/feed';
 import { Button } from '@repo/design-system/components/ui/button';
 import { env } from '@repo/env';
-import { BookOpenText, MoveRight } from 'lucide-react';
+import { MoveRight } from 'lucide-react';
 import { draftMode } from 'next/headers';
 import Link from 'next/link';
 
@@ -45,8 +46,8 @@ export const Hero = async () => {
           </div>
           <div className="flex flex-row gap-3">
             <Button size="lg" className="gap-4" variant="outline" asChild>
-              <Link href="/contact">
-                Docs <BookOpenText className="h-4 w-4" />
+              <Link href="/discord">
+                Join Community <DiscordLogoIcon className="h-4 w-4" />
               </Link>
             </Button>
             <Button size="lg" className="gap-4" asChild>

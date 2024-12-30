@@ -40,8 +40,8 @@ export const Footer = () => {
           href: '/roadmap',
         },
         {
-          title: 'Support',
-          href: '/support',
+          title: 'Community',
+          href: '/discord',
         },
       ],
     },

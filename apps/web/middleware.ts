@@ -21,10 +21,25 @@ export default authMiddleware(async (_auth, request) => {
   try {
     await secure(
       [
-        // See https://docs.arcjet.com/bot-protection/identifying-bots
-        'CATEGORY:SEARCH_ENGINE', // Allow search engines
-        'CATEGORY:PREVIEW', // Allow preview links to show OG images
-        'CATEGORY:MONITOR', // Allow uptime monitoring services
+        'CATEGORY:ACADEMIC',
+        'CATEGORY:ADVERTISING',
+        'CATEGORY:AI',
+        'CATEGORY:AMAZON',
+        // 'CATEGORY:ARCHIVE',
+        'CATEGORY:FEEDFETCHER',
+        'CATEGORY:GOOGLE',
+        'CATEGORY:META',
+        'CATEGORY:MICROSOFT',
+        'CATEGORY:MONITOR',
+        'CATEGORY:OPTIMIZER',
+        'CATEGORY:PREVIEW',
+        'CATEGORY:PROGRAMMATIC',
+        'CATEGORY:SEARCH_ENGINE',
+        'CATEGORY:SLACK',
+        'CATEGORY:SOCIAL',
+        'CATEGORY:TOOL',
+        'CATEGORY:VERCEL',
+        'CATEGORY:YAHOO',
       ],
       request
     );

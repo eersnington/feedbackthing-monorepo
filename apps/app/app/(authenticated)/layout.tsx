@@ -14,12 +14,14 @@ type AppLayoutProperties = {
 const AppLayout = async ({ children }: AppLayoutProperties) => {
   if (env.ARCJET_KEY) {
     await secure([
-      'CATEGORY:ADVERTISING',
-      'CATEGORY:AI',
+      'CATEGORY:FEEDFETCHER',
+      'CATEGORY:GOOGLE',
+      'CATEGORY:MONITOR',
+      'CATEGORY:OPTIMIZER',
       'CATEGORY:PREVIEW',
       'CATEGORY:SEARCH_ENGINE',
+      'CATEGORY:SOCIAL',
       'CATEGORY:VERCEL',
-      'CURL',
     ]);
   }
 

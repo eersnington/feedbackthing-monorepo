@@ -223,7 +223,7 @@ export const POST = async (request: Request): Promise<Response> => {
       break;
     }
     default: {
-      console.log('Unknown event type:', eventType);
+      log.info('Unknown event type:', { eventType });
       break;
     }
   }

@@ -22,7 +22,11 @@
         "SENTRY_ORG",
         "SENTRY_PROJECT",
         "STRIPE_WEBHOOK_SECRET",
-        "SVIX_TOKEN"
+        "SVIX_TOKEN",
+        "LIVEBLOCKS_SECRET",
+        "UPSTASH_REDIS_REST_URL",
+        "UPSTASH_REDIS_REST_TOKEN",
+        "CLERK_ENCRYPTION_KEY"
       ]
     },
     "test": {

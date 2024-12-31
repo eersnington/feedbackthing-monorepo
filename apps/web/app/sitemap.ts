@@ -10,31 +10,36 @@ const pages = appFolders
   .filter((folder) => !folder.name.startsWith('('))
   .map((folder) => folder.name);
 
-const blogs = (await blog.getPosts()).map((post) => post._slug);
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const blogs = (await blog.getPosts()).map((post) => post._slug);
+  const legals = (await legal.getPosts()).map((post) => post._slug);
 
-const legals = (await legal.getPosts()).map((post) => post._slug);
+  console.log('Sitemaps Requests');
+  console.log('Blogs: ', blogs);
+  console.log('Legals: ', legals);
 
-const sitemap = async (): Promise<MetadataRoute.Sitemap> => [
-  {
-    url: env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL,
-    lastModified: new Date(),
-  },
-  ...pages.map((page) => ({
-    url: new URL(page, env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL).href,
-    lastModified: new Date(),
-  })),
-  ...blogs.map((blog) => ({
-    url: new URL(`blog/${blog}`, env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL)
-      .href,
-    lastModified: new Date(),
-  })),
-  ...legals.map((legal) => ({
-    url: new URL(
-      `legal/${legal}`,
-      env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
-    ).href,
-    lastModified: new Date(),
-  })),
-];
-
-export default sitemap;
+  return [
+    {
+      url: env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL,
+      lastModified: new Date(),
+    },
+    ...pages.map((page) => ({
+      url: new URL(page, env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL).href,
+      lastModified: new Date(),
+    })),
+    ...blogs.map((blog) => ({
+      url: new URL(
+        `blog/${blog}`,
+        env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
+      ).href,
+      lastModified: new Date(),
+    })),
+    ...legals.map((legal) => ({
+      url: new URL(
+        `legal/${legal}`,
+        env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
+      ).href,
+      lastModified: new Date(),
+    })),
+  ];
+}

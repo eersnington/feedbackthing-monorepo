@@ -19,7 +19,7 @@ const RootLayout = ({ children }: RootLayoutProperties) => (
     suppressHydrationWarning
   >
     <body>
-      <DesignSystemProvider>
+      <DesignSystemProvider defaultTheme="dark">
         <Toaster />
         {/* <Header /> */}
         <HomeNav />

@@ -1,16 +1,12 @@
-import fs from 'node:fs';
 import { blog, legal } from '@repo/cms';
 import { env } from '@repo/env';
 import type { MetadataRoute } from 'next';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-const appFolders = fs.readdirSync('app', { withFileTypes: true });
-const pages = appFolders
-  .filter((file) => file.isDirectory())
-  .filter((folder) => !folder.name.startsWith('_'))
-  .filter((folder) => !folder.name.startsWith('('))
-  .map((folder) => folder.name);
+// Define static routes instead of reading from filesystem
+const pages = ['blog', 'contact', 'discord', 'legal', 'pricing'];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogs = (await blog.getPosts()).map((post) => post._slug);

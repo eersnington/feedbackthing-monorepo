@@ -3,6 +3,10 @@ import { blog, legal } from '@repo/cms';
 import { env } from '@repo/env';
 import type { MetadataRoute } from 'next';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const dynamicParams = true;
+
 const appFolders = fs.readdirSync('app', { withFileTypes: true });
 const pages = appFolders
   .filter((file) => file.isDirectory())

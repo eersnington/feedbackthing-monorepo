@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import { blog, legal } from '@repo/cms';
 import { env } from '@repo/env';
-import { log } from '@repo/observability/log';
 import type { MetadataRoute } from 'next';
 
 const appFolders = fs.readdirSync('app', { withFileTypes: true });
@@ -14,10 +13,6 @@ const pages = appFolders
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogs = (await blog.getPosts()).map((post) => post._slug);
   const legals = (await legal.getPosts()).map((post) => post._slug);
-
-  log.debug('Sitemaps Requests');
-  log.debug('Blogs: ', blogs);
-  log.debug('Legals: ', legals);
 
   return [
     {

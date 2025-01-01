@@ -103,6 +103,8 @@ model notifications {
 
 model profiles {
   id                String              @id @default(cuid())
+  first_name        String?
+  last_name         String?
   avatar_url        String?
   email             String
   changelogs        changelogs[]
@@ -113,6 +115,7 @@ model profiles {
   project_api_keys  project_api_keys[]
   project_invites   project_invites[]
   project_members   project_members[]
+  subscription_status String @default("inactive")
 }
 
 model project_api_keys {

@@ -207,109 +207,6 @@ importers:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.1)(jsdom@25.0.1(bufferutil@4.0.8))(terser@5.31.0)
 
-  apps/dash:
-    dependencies:
-      '@prisma/client':
-        specifier: 6.0.1
-        version: 6.0.1(prisma@6.0.1)
-      '@repo/analytics':
-        specifier: workspace:*
-        version: link:../../packages/analytics
-      '@repo/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth
-      '@repo/database':
-        specifier: workspace:*
-        version: link:../../packages/database
-      '@repo/design-system':
-        specifier: workspace:*
-        version: link:../../packages/design-system
-      '@repo/env':
-        specifier: workspace:*
-        version: link:../../packages/env
-      '@repo/feature-flags':
-        specifier: workspace:*
-        version: link:../../packages/feature-flags
-      '@repo/next-config':
-        specifier: workspace:*
-        version: link:../../packages/next-config
-      '@repo/security':
-        specifier: workspace:*
-        version: link:../../packages/security
-      '@repo/seo':
-        specifier: workspace:*
-        version: link:../../packages/seo
-      '@repo/tailwind-config':
-        specifier: workspace:*
-        version: link:../../packages/tailwind-config
-      '@repo/webhooks':
-        specifier: workspace:*
-        version: link:../../packages/webhooks
-      '@sentry/nextjs':
-        specifier: ^8.43.0
-        version: 8.44.0(@opentelemetry/core@1.29.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.56.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.29.0(@opentelemetry/api@1.9.0))(next@15.1.0(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)(webpack@5.91.0(@swc/core@1.3.101(@swc/helpers@0.5.15)))
-      base64-arraybuffer:
-        specifier: ^1.0.2
-        version: 1.0.2
-      fuse.js:
-        specifier: ^7.0.0
-        version: 7.0.0
-      import-in-the-middle:
-        specifier: ^1.11.3
-        version: 1.11.3
-      lucide-react:
-        specifier: ^0.468.0
-        version: 0.468.0(react@19.0.0)
-      next:
-        specifier: 15.1.0
-        version: 15.1.0(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      next-themes:
-        specifier: ^0.4.4
-        version: 0.4.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      react:
-        specifier: 19.0.0
-        version: 19.0.0
-      react-dom:
-        specifier: 19.0.0
-        version: 19.0.0(react@19.0.0)
-      require-in-the-middle:
-        specifier: ^7.4.0
-        version: 7.4.0
-    devDependencies:
-      '@repo/testing':
-        specifier: workspace:*
-        version: link:../../packages/testing
-      '@repo/typescript-config':
-        specifier: workspace:*
-        version: link:../../packages/typescript-config
-      '@testing-library/dom':
-        specifier: ^10.4.0
-        version: 10.4.0
-      '@testing-library/react':
-        specifier: ^16.1.0
-        version: 16.1.0(@testing-library/dom@10.4.0)(@types/react-dom@19.0.2(@types/react@19.0.1))(@types/react@19.0.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@types/node':
-        specifier: 22.10.1
-        version: 22.10.1
-      '@types/react':
-        specifier: 19.0.1
-        version: 19.0.1
-      '@types/react-dom':
-        specifier: 19.0.2
-        version: 19.0.2(@types/react@19.0.1)
-      jsdom:
-        specifier: ^25.0.1
-        version: 25.0.1(bufferutil@4.0.8)
-      tailwindcss:
-        specifier: ^3.4.16
-        version: 3.4.16(ts-node@10.9.2(@swc/core@1.3.101(@swc/helpers@0.5.15))(@types/node@22.10.1)(typescript@5.7.2))
-      typescript:
-        specifier: ^5.7.2
-        version: 5.7.2
-      vitest:
-        specifier: ^2.1.8
-        version: 2.1.8(@types/node@22.10.1)(jsdom@25.0.1(bufferutil@4.0.8))(terser@5.31.0)
-
   apps/docs:
     devDependencies:
       typescript:
@@ -520,7 +417,7 @@ importers:
         version: 1.7.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       sqip:
         specifier: 1.0.0-alpha.51
-        version: 1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-data-uri@1.0.0-alpha.52(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-primitive@1.0.0-alpha.53(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-svgo@1.0.0-alpha.54(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53))
+        version: 1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54)
       sqip-plugin-data-uri:
         specifier: 1.0.0-alpha.52
         version: 1.0.0-alpha.52(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54)
@@ -602,8 +499,8 @@ importers:
         specifier: ^1.4.1
         version: 1.4.1(next@15.1.0(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)(svelte@5.2.7)(vue@3.5.13(typescript@5.7.2))
       posthog-js:
-        specifier: ^1.195.0
-        version: 1.198.0
+        specifier: ^1.203.2
+        version: 1.203.2
       posthog-node:
         specifier: ^4.3.1
         version: 4.3.1
@@ -5828,10 +5725,6 @@ packages:
   bare-stream@2.3.2:
     resolution: {integrity: sha512-EFZHSIBkDgSHIwj2l2QZfP4U5OcD4xFAOwhSb/vlr9PIqyGJGvB/nfClJbcnh3EY4jtPE4zsb5ztae96bVF79A==}
 
-  base64-arraybuffer@1.0.2:
-    resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
-    engines: {node: '>= 0.6.0'}
-
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
@@ -8929,8 +8822,8 @@ packages:
   postgres-range@1.1.4:
     resolution: {integrity: sha512-i/hbxIE9803Alj/6ytL7UHQxRvZkI9O4Sy+J3HGc4F4oo/2eQAjTSNJ0bfxyse3bH0nuVesCk+3IRLaMtG3H6w==}
 
-  posthog-js@1.198.0:
-    resolution: {integrity: sha512-QvXaLW9OTIWoXzFf9lAeVVN7q1exBjVi8Piygz771AvpnySloFrfHntFgnU0eMYSM199psANOtNlmqckG8YdfQ==}
+  posthog-js@1.203.2:
+    resolution: {integrity: sha512-3aLpEhM4i9sQQtobRmDttJ3rTW1+gwQ9HL7QiOeDueE2T7CguYibYS7weY1UhXMerx5lh1A7+szlOJTTibifLQ==}
 
   posthog-node@4.3.1:
     resolution: {integrity: sha512-By9SEGZxBLC7GVyVb+HlJlpxM/xI4iLUgwtsBS8f4bZ0wqYKiNHoYcFEwMJnTM9xQcQZztr6dqLmsJ7jCv0vxA==}
@@ -15953,8 +15846,6 @@ snapshots:
       streamx: 2.20.1
     optional: true
 
-  base64-arraybuffer@1.0.2: {}
-
   base64-js@1.5.1: {}
 
   base64id@2.0.0: {}
@@ -19670,7 +19561,7 @@ snapshots:
 
   postgres-range@1.1.4: {}
 
-  posthog-js@1.198.0:
+  posthog-js@1.203.2:
     dependencies:
       core-js: 3.38.1
       fflate: 0.4.8
@@ -20812,7 +20703,7 @@ snapshots:
 
   sqip-plugin-blur@1.0.0-alpha.22(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54):
     dependencies:
-      sqip: 1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-data-uri@1.0.0-alpha.52(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-primitive@1.0.0-alpha.53(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-svgo@1.0.0-alpha.54(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53))
+      sqip: 1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54)
     transitivePeerDependencies:
       - sqip-plugin-data-uri
       - sqip-plugin-primitive
@@ -20822,7 +20713,7 @@ snapshots:
   sqip-plugin-data-uri@1.0.0-alpha.52(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54):
     dependencies:
       mini-svg-data-uri: 1.4.4
-      sqip: 1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-data-uri@1.0.0-alpha.52(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-primitive@1.0.0-alpha.53(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-svgo@1.0.0-alpha.54(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53))
+      sqip: 1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54)
     transitivePeerDependencies:
       - sqip-plugin-blur
       - sqip-plugin-primitive
@@ -20834,7 +20725,7 @@ snapshots:
       debug: 4.3.7
       execa: 5.1.1
       sharp: 0.32.6
-      sqip: 1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-data-uri@1.0.0-alpha.52(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-primitive@1.0.0-alpha.53(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-svgo@1.0.0-alpha.54(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53))
+      sqip: 1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54)
     transitivePeerDependencies:
       - sqip-plugin-blur
       - sqip-plugin-data-uri
@@ -20843,7 +20734,7 @@ snapshots:
 
   sqip-plugin-svgo@1.0.0-alpha.54(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53):
     dependencies:
-      sqip: 1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-data-uri@1.0.0-alpha.52(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-primitive@1.0.0-alpha.53(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-svgo@1.0.0-alpha.54(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53))
+      sqip: 1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54)
       svgo: 3.3.2
     transitivePeerDependencies:
       - sqip-plugin-blur
@@ -20851,7 +20742,7 @@ snapshots:
       - sqip-plugin-primitive
       - supports-color
 
-  sqip@1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-data-uri@1.0.0-alpha.52(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-primitive@1.0.0-alpha.53(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-svgo@1.0.0-alpha.54))(sqip-plugin-svgo@1.0.0-alpha.54(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)):
+  sqip@1.0.0-alpha.51(sqip-plugin-blur@1.0.0-alpha.22)(sqip-plugin-data-uri@1.0.0-alpha.52)(sqip-plugin-primitive@1.0.0-alpha.53)(sqip-plugin-svgo@1.0.0-alpha.54):
     dependencies:
       '@behold/sharp-vibrant': 0.2.1
       '@svgdotjs/svg.js': 3.2.4

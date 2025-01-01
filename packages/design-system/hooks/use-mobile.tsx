@@ -1,13 +1,13 @@
 "use client"
 
-import * as React from "react"
+import { useEffect, useState } from "react"
 
 const MOBILE_BREAKPOINT = 768
 
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined | null>(undefined)
+  const [isMobile, setIsMobile] = useState<boolean | undefined | null>(undefined)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)

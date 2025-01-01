@@ -1,3 +1,4 @@
+import type {} from '@prisma/client';
 import { analytics } from '@repo/analytics/posthog/server';
 import type {
   DeletedObjectJSON,
@@ -6,13 +7,28 @@ import type {
   UserJSON,
   WebhookEvent,
 } from '@repo/auth/server';
+import { database } from '@repo/database';
 import { env } from '@repo/env';
 import { log } from '@repo/observability/log';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { Webhook } from 'svix';
 
-const handleUserCreated = (data: UserJSON) => {
+const handleUserCreated = async (data: UserJSON) => {
+  try {
+    await database.profiles.create({
+      data: {
+        id: data.id,
+        email: data.email_addresses.at(0)?.email_address || '',
+        first_name: data.first_name,
+        last_name: data.last_name,
+        avatar_url: data.image_url,
+      },
+    });
+  } catch (error) {
+    log.error('Error creating user:', { error });
+  }
+
   analytics.identify({
     distinctId: data.id,
     properties: {
@@ -195,7 +211,7 @@ export const POST = async (request: Request): Promise<Response> => {
 
   switch (eventType) {
     case 'user.created': {
-      response = handleUserCreated(event.data);
+      response = await handleUserCreated(event.data);
       break;
     }
     case 'user.updated': {

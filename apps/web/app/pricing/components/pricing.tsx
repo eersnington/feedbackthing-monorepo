@@ -12,7 +12,7 @@ const pricingPlans = [
     buttonLink: env.NEXT_PUBLIC_APP_URL,
   },
   {
-    title: 'Lite',
+    title: 'Starter',
     description:
       'Upgrade to handle growing needs with more projects and customization options. Perfect for side hustles or solopreneurs.',
     price: '$16',
@@ -34,8 +34,8 @@ const features = [
   {
     feature: 'Projects',
     startup: '1 project',
-    growth: '5 projects',
-    enterprise: 'Unlimited projects',
+    growth: '1 project',
+    enterprise: '5 projects',
   },
   { feature: 'Customization', startup: true, growth: true, enterprise: true },
   { feature: 'Custom Domain', startup: false, growth: true, enterprise: true },
@@ -48,19 +48,19 @@ const features = [
   {
     feature: 'API Access',
     startup: false,
-    growth: false,
+    growth: true,
     enterprise: true,
   },
   {
     feature: 'Team Members',
     startup: false,
-    growth: false,
+    growth: '2 members',
     enterprise: '5 members',
   },
   {
     feature: 'Integrations',
     startup: '1 (Discord)',
-    growth: '3 (Discord, GitHub, Slack)',
+    growth: '2 (Discord, GitHub)',
     enterprise: '5+ (Discord, GitHub, Linear, Slack, etc)',
   },
 ];

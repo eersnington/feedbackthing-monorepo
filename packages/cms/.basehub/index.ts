@@ -186,7 +186,7 @@ export const getStuffFromEnv = (options) => {
 
     // 3.
     const gitBranch = "main";
-    const gitCommitSHA = "b358dc5921f3f2ab326853d7ca4c745386a38f1a";
+    const gitCommitSHA = "4c580c2ba3385f3e5a71f190483f8a8112756cdb";
 
     return {
       isForcedDraft: true,
@@ -208,8 +208,8 @@ export const getStuffFromEnv = (options) => {
 export type * from "@basehub/mutation-api-helpers";
 import { createFetcher } from "./runtime";
 
-export const sdkBuildId = "bshb_sdk_cae99c38a1383";
-export const resolvedRef = {"repoHash":"65fb50f5","type":"branch","ref":"main","createSuggestedBranchLink":null,"id":"tyQ7dbHIqQ9B6tMqGcAhT","name":"main","git":null,"createdAt":"2024-12-23T15:55:07.350Z","archivedAt":null,"archivedBy":null,"headCommitId":"Lesnk8MEMKotljNtE9KWZ","isDefault":true,"deletedAt":null,"workingRootBlockId":"YT1JdGjbiPEnpNXfbw4y6"};
+export const sdkBuildId = "bshb_sdk_96673a96fb30f";
+export const resolvedRef = {"repoHash":"65fb50f5","type":"branch","ref":"main","createSuggestedBranchLink":null,"id":"tyQ7dbHIqQ9B6tMqGcAhT","name":"main","git":null,"createdAt":"2024-12-23T15:55:07.350Z","archivedAt":null,"archivedBy":null,"headCommitId":"8SpmLjhP6gU056Sr0X9nh","isDefault":true,"deletedAt":null,"workingRootBlockId":"YT1JdGjbiPEnpNXfbw4y6"};
 export const gitBranchDeploymentURL = null;
 export const productionDeploymentURL = null;
 
@@ -317,7 +317,7 @@ export const basehub = (options?: Options) => {
     if (typeof options?.next !== 'undefined') return {}
 
     const cacheTag = cacheTagFromQuery(originalRequest)
-    return { next: { tags: [cacheTag] }, headers: { 'x-basehub-sdk-build-id': "bshb_sdk_cae99c38a1383", 'x-basehub-cache-tag': cacheTag }}
+    return { next: { tags: [cacheTag] }, headers: { 'x-basehub-sdk-build-id': "bshb_sdk_96673a96fb30f", 'x-basehub-cache-tag': cacheTag }}
   }
 
   return {

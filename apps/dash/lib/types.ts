@@ -1,38 +1,45 @@
-import { Database } from '@/lib/supabase';
-import { changelogs, profiles } from '@prisma/client';
+import type {
+  projects,
+  profiles,
+  changelogs,
+  project_configs,
+  notifications,
+  project_invites,
+  project_api_keys,
+  feedback,
+  feedback_tags,
+  feedback_comments
+} from '@prisma/client';
 
 export type ChangelogWithProfile = changelogs & {
   profiles: profiles | null
 }
 
 // DB Types
-export type ProjectProps = Database['public']['Tables']['projects'];
+export type ProjectProps = projects;
 
-export type ProjectConfigProps = Database['public']['Tables']['project_configs'];
+export type ProjectConfigProps = project_configs;
 
-export type ProjectConfigWithoutSecretProps = Omit<
-  Database['public']['Tables']['project_configs']['Row'],
-  'integration_sso_secret'
->;
+export type ProjectConfigWithoutSecretProps = Omit<project_configs, 'integration_sso_secret'>;
 
-export type TeamMemberProps = Database['public']['Tables']['profiles']['Row'] & {
+export type TeamMemberProps = profiles & {
   joined_at: string;
 };
 
-export type NotificationProps = Database['public']['Tables']['notifications']['Row'] & {
-  project: { name: string; slug: string; icon: string };
-  initiator: { full_name: string };
+export type NotificationProps = notifications & {
+  project: Pick<projects, 'name' | 'slug' | 'icon'>;
+  initiator: Pick<profiles, 'first_name' | 'last_name'>;
 };
 
-export type ProjectInviteProps = Database['public']['Tables']['project_invites'];
+export type ProjectInviteProps = project_invites;
 
-export type ProjectApiKeyProps = Database['public']['Tables']['project_api_keys'];
+export type ProjectApiKeyProps = project_api_keys;
 
-export type ProjectApiKeyWithoutTokenProps = Omit<ProjectApiKeyProps['Row'], 'token'>;
+export type ProjectApiKeyWithoutTokenProps = Omit<project_api_keys, 'token'>;
 
-export type ExtendedInviteProps = ProjectInviteProps['Row'] & {
-  project: { name: string; slug: string; icon: string };
-  creator: { full_name: string };
+export type ExtendedInviteProps = project_invites & {
+  project: Pick<projects, 'name' | 'slug' | 'icon'>;
+  creator: Pick<profiles, 'first_name' | 'last_name'>;
 };
 
 export type AnalyticsProps = {
@@ -41,46 +48,41 @@ export type AnalyticsProps = {
   visitors: number;
 }[];
 
-export type ChangelogProps = Database['public']['Tables']['changelogs'];
+export type ChangelogProps = changelogs;
 
-export type ChangelogWithAuthorProps = Database['public']['Tables']['changelogs']['Row'] & {
-  author: ProfileProps['Row'];
+export type ChangelogWithAuthorProps = changelogs & {
+  author: profiles;
 };
 
-export type ChangelogSubscriberProps = Database['public']['Tables']['changelog_subscribers'];
+export type FeedbackProps = feedback;
 
-export type FeedbackProps = Database['public']['Tables']['feedback'];
+export type FeedbackTagProps = feedback_tags;
 
-export type FeedbackTagProps = Database['public']['Tables']['feedback_tags'];
-
-export type FeedbackWithUserProps = Database['public']['Tables']['feedback']['Row'] & {
-  user: ProfileProps['Row'] & { isTeamMember: boolean };
-  tags: { name: string; color: string }[];
+export type FeedbackWithUserProps = feedback & {
+  user: profiles & { isTeamMember: boolean };
+  tags: Array<Pick<feedback_tags, 'name' | 'color'>>;
   has_upvoted: boolean;
 };
 
-export type FeedbackWithUserInputProps = Database['public']['Tables']['feedback']['Insert'] & {
+export type FeedbackWithUserInputProps = Omit<feedback, 'id' | 'created_at'> & {
   tags?: string[];
-  user?: ProfileProps['Update'];
+  user?: Partial<profiles>;
 };
 
-export type FeedbackCommentProps = Database['public']['Tables']['feedback_comments'];
+export type FeedbackCommentProps = feedback_comments;
 
-export type FeedbackCommentWithUserProps = Database['public']['Tables']['feedback_comments']['Row'] & {
-  user: ProfileProps['Row'] & { isTeamMember: boolean };
+export type FeedbackCommentWithUserProps = feedback_comments & {
+  user: profiles & { isTeamMember: boolean };
   has_upvoted: boolean;
   replies: FeedbackCommentWithUserProps[];
 };
 
-export type ProfileProps = Database['public']['Tables']['profiles'];
-
-// Helper Types
+// Keep existing helper/UI types
 export interface ErrorProps {
   message: string;
   status: number;
 }
 
-// Incase error is null, data won't be and vice versa
 export type ApiResponse<T, E extends ErrorProps | null = ErrorProps | null> = Promise<
   E extends null ? { data: T; error: null } : { data: null; error: E }
 >;

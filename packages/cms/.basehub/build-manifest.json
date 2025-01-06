@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2024-12-30T13:36:21.728Z",
+  "generatedAt": "2025-01-05T17:52:14.717Z",
   "sdkVersion": "7.5.28",
-  "inputHash": "e3be4152bcb6353861706ff22b28caf6",
-  "schemaHash": "8ed6e7625dc5d5795d24c1dd425e4c88",
+  "inputHash": "cac982f2af8ace73e44c3da4eefdf989",
+  "schemaHash": "89febf1eb6b0710360fdb12912c4ab68",
   "resolvedRef": {
     "repoHash": "65fb50f5",
     "type": "branch",
@@ -14,7 +14,7 @@
     "createdAt": "2024-12-23T15:55:07.350Z",
     "archivedAt": null,
     "archivedBy": null,
-    "headCommitId": "Lesnk8MEMKotljNtE9KWZ",
+    "headCommitId": "8SpmLjhP6gU056Sr0X9nh",
     "isDefault": true,
     "deletedAt": null,
     "workingRootBlockId": "YT1JdGjbiPEnpNXfbw4y6"

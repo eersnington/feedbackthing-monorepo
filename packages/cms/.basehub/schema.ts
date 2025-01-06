@@ -36,6 +36,9 @@ export interface Authors {
     _slugPath: Scalars['String']
     _sys: BlockDocumentSys
     _title: Scalars['String']
+    /** Returns the first item in the list, or null if the list is empty. Useful when you expect only one result. */
+    item: (AuthorsItem | null)
+    /** Returns the list of items after filtering and paginating according to the arguments sent by the client. */
     items: AuthorsItem[]
     __typename: 'Authors'
 }
@@ -229,6 +232,9 @@ export interface Categories {
     _slugPath: Scalars['String']
     _sys: BlockDocumentSys
     _title: Scalars['String']
+    /** Returns the first item in the list, or null if the list is empty. Useful when you expect only one result. */
+    item: (CategoriesItem | null)
+    /** Returns the list of items after filtering and paginating according to the arguments sent by the client. */
     items: CategoriesItem[]
     __typename: 'Categories'
 }
@@ -257,6 +263,9 @@ export interface LegalPages {
     _slugPath: Scalars['String']
     _sys: BlockDocumentSys
     _title: Scalars['String']
+    /** Returns the first item in the list, or null if the list is empty. Useful when you expect only one result. */
+    item: (LegalPagesItem | null)
+    /** Returns the list of items after filtering and paginating according to the arguments sent by the client. */
     items: LegalPagesItem[]
     __typename: 'LegalPages'
 }
@@ -292,6 +301,9 @@ export interface Posts {
     _slugPath: Scalars['String']
     _sys: BlockDocumentSys
     _title: Scalars['String']
+    /** Returns the first item in the list, or null if the list is empty. Useful when you expect only one result. */
+    item: (PostsItem | null)
+    /** Returns the list of items after filtering and paginating according to the arguments sent by the client. */
     items: PostsItem[]
     __typename: 'Posts'
 }
@@ -369,6 +381,9 @@ export interface AuthorsGenqlSelection{
     _slugPath?: boolean | number
     _sys?: BlockDocumentSysGenqlSelection
     _title?: boolean | number
+    /** Returns the first item in the list, or null if the list is empty. Useful when you expect only one result. */
+    item?: AuthorsItemGenqlSelection
+    /** Returns the list of items after filtering and paginating according to the arguments sent by the client. */
     items?: AuthorsItemGenqlSelection
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -698,6 +713,9 @@ export interface CategoriesGenqlSelection{
     _slugPath?: boolean | number
     _sys?: BlockDocumentSysGenqlSelection
     _title?: boolean | number
+    /** Returns the first item in the list, or null if the list is empty. Useful when you expect only one result. */
+    item?: CategoriesItemGenqlSelection
+    /** Returns the list of items after filtering and paginating according to the arguments sent by the client. */
     items?: CategoriesItemGenqlSelection
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -742,6 +760,9 @@ export interface LegalPagesGenqlSelection{
     _slugPath?: boolean | number
     _sys?: BlockDocumentSysGenqlSelection
     _title?: boolean | number
+    /** Returns the first item in the list, or null if the list is empty. Useful when you expect only one result. */
+    item?: LegalPagesItemGenqlSelection
+    /** Returns the list of items after filtering and paginating according to the arguments sent by the client. */
     items?: LegalPagesItemGenqlSelection
     __typename?: boolean | number
     __scalar?: boolean | number
@@ -796,6 +817,9 @@ export interface PostsGenqlSelection{
     _slugPath?: boolean | number
     _sys?: BlockDocumentSysGenqlSelection
     _title?: boolean | number
+    /** Returns the first item in the list, or null if the list is empty. Useful when you expect only one result. */
+    item?: PostsItemGenqlSelection
+    /** Returns the list of items after filtering and paginating according to the arguments sent by the client. */
     items?: PostsItemGenqlSelection
     __typename?: boolean | number
     __scalar?: boolean | number

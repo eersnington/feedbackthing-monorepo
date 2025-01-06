@@ -1,4 +1,4 @@
-import type {} from '@prisma/client';
+import type { profiles} from '@prisma/client';
 import { analytics } from '@repo/analytics/posthog/server';
 import type {
   DeletedObjectJSON,

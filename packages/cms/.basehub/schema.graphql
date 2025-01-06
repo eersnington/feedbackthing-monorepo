@@ -22,6 +22,15 @@ type Authors implements BlockDocument & BlockList {
   _slugPath: String!
   _sys: BlockDocumentSys!
   _title: String!
+
+  """
+  Returns the first item in the list, or null if the list is empty. Useful when you expect only one result.
+  """
+  item: AuthorsItem
+
+  """
+  Returns the list of items after filtering and paginating according to the arguments sent by the client.
+  """
   items: [AuthorsItem!]!
 }
 
@@ -362,6 +371,15 @@ type Categories implements BlockDocument & BlockList {
   _slugPath: String!
   _sys: BlockDocumentSys!
   _title: String!
+
+  """
+  Returns the first item in the list, or null if the list is empty. Useful when you expect only one result.
+  """
+  item: CategoriesItem
+
+  """
+  Returns the list of items after filtering and paginating according to the arguments sent by the client.
+  """
   items: [CategoriesItem!]!
 }
 
@@ -450,6 +468,15 @@ type LegalPages implements BlockDocument & BlockList {
   _slugPath: String!
   _sys: BlockDocumentSys!
   _title: String!
+
+  """
+  Returns the first item in the list, or null if the list is empty. Useful when you expect only one result.
+  """
+  item: LegalPagesItem
+
+  """
+  Returns the list of items after filtering and paginating according to the arguments sent by the client.
+  """
   items: [LegalPagesItem!]!
 }
 
@@ -544,6 +571,15 @@ type Posts implements BlockDocument & BlockList {
   _slugPath: String!
   _sys: BlockDocumentSys!
   _title: String!
+
+  """
+  Returns the first item in the list, or null if the list is empty. Useful when you expect only one result.
+  """
+  item: PostsItem
+
+  """
+  Returns the list of items after filtering and paginating according to the arguments sent by the client.
+  """
   items: [PostsItem!]!
 }
 

@@ -5,48 +5,81 @@ import {
   FeedbackTagProps,
   FeedbackWithUserProps,
 } from '@/lib/types';
+import { profiles, projects } from '@prisma/client';
+import { database } from '@repo/database';
 
 // Get Public Project Changelogs
-export const getPublicProjectChangelogs = withProjectAuth<ChangelogWithAuthorProps[]>(
-  async (user, supabase, project, error) => {
-    // If any errors, return error
-    if (error) {
-      return { data: null, error };
-    }
+export const getPublicProjectChangelogs = (slug: string) => 
+  withProjectAuth(async (user: profiles, project: projects) => {
+    const changelogs = await database.changelogs.findMany({
+      where: {
+        project_id: project.id,
+        published: true
+      },
+      include: {
+        profiles: true
+      }
+    });
 
-    // Get Changelogs
-    const { data: changelogs, error: changelogsError } = await supabase
-      .from('changelogs')
-      .select('profiles (full_name, avatar_url), *')
-      .eq('project_id', project!.id)
-      .eq('published', true);
+    const restructuredData: ChangelogWithAuthorProps[] = changelogs.map((changelog) => ({
+      ...changelog,
+      author: changelog.profiles
+    }));
 
-    // Check for errors
-    if (changelogsError) {
-      return { data: null, error: { message: changelogsError.message, status: 500 } };
-    }
-
-    // Restructure data
-    const restructuredData = changelogs.map((changelog) => {
-      // Destructure profiles from changelog
-      const { profiles, ...restOfChangelog } = changelog;
-
-      return {
-        ...restOfChangelog,
-        author: {
-          full_name: changelog.profiles?.full_name,
-          avatar_url: changelog.profiles?.avatar_url,
-        },
-      };
-    }) as ChangelogWithAuthorProps[];
-
-    // Return changelogs
     return { data: restructuredData, error: null };
-  }
-);
+  })(slug, true);
+
 
 // Get Public Project Feedback
-export const getPublicProjectFeedback = withProjectAuth<FeedbackWithUserProps[]>(
+export const getPublicProjectFeedback = (slug: string) =>
+  withProjectAuth(async (user: profiles, project: projects) => {
+    const feedback = await database.feedback.findMany({
+      where: {
+        project_id: project.id
+      },
+      include: {
+        profiles: true,
+        // feedback_tags: true
+      }
+    });
+
+    const teamMembers = await database.project_members.findMany({
+      where: {
+        project_id: project.id
+      }
+    });
+
+    let feedbackData: FeedbackWithUserProps[] = feedback.map(f => ({
+      ...f,
+      user: {
+        ...f.profiles,
+        isTeamMember: teamMembers.some(m => m.member_id === f.user_id)
+      },
+      tags: f.raw_tags as any,
+      has_upvoted: false
+    }));
+
+    if (user) {
+      const upvotes = await database.feedback_upvoters.findMany({
+        where: {
+          profile_id: user.id,
+          feedback_id: {
+            in: feedback.map(f => f.id)
+          }
+        }
+      });
+
+      feedbackData = feedbackData.map(f => ({
+        ...f,
+        has_upvoted: upvotes.some(u => u.feedback_id === f.id)
+      }));
+    }
+
+    return { data: feedbackData, error: null };
+  })(slug, true);
+
+// Get Public Project Feedback
+export const getPublicProjectFeedback2 = withProjectAuth<FeedbackWithUserProps[]>(
   async (user, supabase, project, error) => {
     // If any errors, return error
     if (error) {

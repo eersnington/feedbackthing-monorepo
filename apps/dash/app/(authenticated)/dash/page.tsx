@@ -1,9 +1,9 @@
-import { redirect } from 'next/navigation';
-import { getUserProjects } from '@/lib/api/user';
 import Onboarding from '@/components/layout/onboarding';
+import { getUserProjects } from '@/lib/api/user';
+import { redirect } from 'next/navigation';
 
 export default async function Projects() {
-  const { data: projects, error } = await getUserProjects('server');
+  const { data: projects, error } = await getUserProjects();
 
   if (error) {
     // Redirect to login if the user is not authenticated
@@ -21,7 +21,7 @@ export default async function Projects() {
 
   // TODO: Improve this and make this redirect to an onboarding page if the user has no projects
   return (
-    <div className='flex h-screen w-full items-center justify-center'>
+    <div className="flex h-screen w-full items-center justify-center">
       <Onboarding />
     </div>
   );

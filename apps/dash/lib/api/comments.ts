@@ -1,161 +1,92 @@
 import { withFeedbackAuth } from '../auth';
-import { FeedbackCommentProps, FeedbackCommentWithUserProps } from '../types';
+import { database } from '@repo/database';
+import type { profiles, projects, feedback, feedback_comments } from '@prisma/client';
+import type { FeedbackCommentWithUserProps } from '../types';
 
-// Create comment for feedback by id
+// Create comment
 export const createCommentForFeedbackById = (
-  data: FeedbackCommentProps['Insert'],
-  projectSlug: string,
-  cType: 'server' | 'route'
+  data: Omit<feedback_comments, 'id' | 'created_at'>,
+  projectSlug: string
 ) =>
-  withFeedbackAuth<FeedbackCommentProps['Row']>(async (user, supabase, feedback, project, error) => {
-    // If any errors, return error
-    if (error) {
-      return { data: null, error };
-    }
-
-    // If reply_to_id is provided, make sure comment exists
+  withFeedbackAuth(async (user: profiles, feedbackItem: feedback, project: projects) => {
     if (data.reply_to_id) {
-      const { data: replyToComment, error: replyToCommentError } = await supabase
-        .from('feedback_comments')
-        .select()
-        .eq('id', data.reply_to_id)
-        .single();
-
-      // Check for errors
-      if (replyToCommentError) {
-        return { data: null, error: { message: replyToCommentError.message, status: 500 } };
-      }
-
-      // Check if comment exists
-      if (!replyToComment) {
-        return { data: null, error: { message: 'comment not found.', status: 404 } };
-      }
-    }
-
-    // Make sure comment is not empty or just html tags
-    if (data.content.replace(/<[^>]*>?/gm, '').length === 0) {
-      return { data: null, error: { message: 'comment cannot be empty.', status: 400 } };
-    }
-
-    // Create comment
-    const { data: comment, error: commentError } = await supabase
-      .from('feedback_comments')
-      .insert({
-        feedback_id: data.feedback_id,
-        user_id: user!.id,
-        content: data.content,
-        reply_to_id: data.reply_to_id,
-      })
-      .select()
-      .single();
-
-    // Check for errors
-    if (commentError) {
-      return { data: null, error: { message: commentError.message, status: 500 } };
-    }
-
-    // Increment comment count
-    const { error: feedbackError } = await supabase
-      .from('feedback')
-      .update({ comment_count: feedback!.comment_count + 1 })
-      .eq('id', feedback!.id);
-
-    if (feedbackError) {
-      return { data: null, error: { message: feedbackError.message, status: 500 } };
-    }
-
-    // Create project notification
-    await supabase
-      .from('notifications')
-      .insert({
-        type: 'comment',
-        project_id: project!.id,
-        initiator_id: user!.id,
-        feedback_id: data.feedback_id,
-        comment_id: comment.id,
-      })
-      .select()
-      .single();
-
-    // Return comment
-    return { data: comment, error: null };
-  })(data.feedback_id, projectSlug, cType);
-
-// Get comments for feedback by id
-export const getCommentsForFeedbackById = withFeedbackAuth<FeedbackCommentWithUserProps[]>(
-  async (user, supabase, feedback, project, error) => {
-    // If any errors, return error
-    if (error) {
-      return { data: null, error };
-    }
-
-    // Get comments
-    const { data: comments, error: commentsError } = await supabase
-      .from('feedback_comments')
-      .select('*, user:user_id (*)')
-      .eq('feedback_id', feedback!.id);
-
-    // Check for errors
-    if (commentsError) {
-      return { data: null, error: { message: commentsError.message, status: 500 } };
-    }
-
-    // Convert comments to FeedbackCommentWithUserProps[]
-    const feedbackData = comments as unknown as FeedbackCommentWithUserProps[];
-
-    // Get team members
-    const { data: teamMembers, error: teamMembersError } = await supabase
-      .from('project_members')
-      .select('profiles (full_name, avatar_url), *')
-      .eq('project_id', project!.id);
-
-    if (teamMembersError) {
-      return { data: null, error: { message: teamMembersError.message, status: 500 } };
-    }
-
-    // Set team members
-    feedbackData.forEach((comment) => {
-      comment.user.isTeamMember = teamMembers.some((member) => member.member_id === comment.user_id);
-    });
-
-    // Check if user has upvoted any comments
-    if (user) {
-      feedbackData.forEach((comment) => {
-        if (comment.upvoters) {
-          comment.has_upvoted = comment.upvoters.includes(user.id);
-        }
+      const replyToComment = await database.feedback_comments.findUnique({
+        where: { id: data.reply_to_id }
       });
+
+      if (!replyToComment) {
+        return { data: null, error: 'Comment not found' };
+      }
     }
 
-    // Restructure comments to have replies as a property
-    const commentsWithReplies = feedbackData.map((comment) => {
-      // If comment has a reply_to_id, add it to the replies array of the comment it's replying to
-      if (comment.reply_to_id) {
-        const replyToComment = feedbackData.find((c) => c.id === comment.reply_to_id);
+    if (data.content.replace(/<[^>]*>?/gm, '').length === 0) {
+      return { data: null, error: 'Comment cannot be empty' };
+    }
 
-        if (replyToComment) {
-          if (!replyToComment.replies) {
-            replyToComment.replies = [];
-          }
-
-          // Push comment to replies array
-          replyToComment.replies.push(comment);
-        }
-
-        // Return null to remove comment from commentsWithReplies array
-        return null;
+    const comment = await database.feedback_comments.create({
+      data: {
+        feedback_id: data.feedback_id,
+        user_id: user.id,
+        content: data.content,
+        reply_to_id: data.reply_to_id
       }
-
-      return comment;
     });
 
-    // Remove null values from commentsWithReplies array
-    const nonNullCommentsWithReplies: FeedbackCommentWithUserProps[] = commentsWithReplies.filter(
-      (comment): comment is FeedbackCommentWithUserProps => comment !== null
-    );
+    await database.feedback.update({
+      where: { id: feedbackItem.id },
+      data: { comment_count: { increment: 1 } }
+    });
 
-    // Return comments
-    return { data: nonNullCommentsWithReplies, error: null };
+    await database.notifications.create({
+      data: {
+        type: 'comment',
+        project_id: project.id,
+        initiator_id: user.id,
+        feedback_id: data.feedback_id,
+        comment_id: comment.id
+      }
+    });
+
+    return { data: comment, error: null };
+  })(data.feedback_id, projectSlug);
+
+// Get comments
+export const getCommentsForFeedbackById = withFeedbackAuth(
+  async (user: profiles, feedbackItem: feedback, project: projects) => {
+    // Get comments with profiles
+    const comments = await database.feedback_comments.findMany({
+      where: { feedback_id: feedbackItem.id },
+      include: { profiles: true }
+    });
+
+    // Get team members for isTeamMember check
+    const teamMembers = await database.project_members.findMany({
+      where: { project_id: project.id }
+    });
+
+    // Map comments with user data and check upvotes from upvoters array
+    let feedbackData = comments.map(comment => ({
+      ...comment,
+      user: {
+        ...comment.profiles,
+        isTeamMember: teamMembers.some(m => m.member_id === comment.user_id)
+      },
+      has_upvoted: user ? comment.upvoters.includes(user.id) : false,
+      replies: []
+    }));
+
+    // Structure comments with replies
+    const commentsWithReplies = feedbackData.reduce((acc, comment) => {
+      if (!comment.reply_to_id) {
+        acc.push({
+          ...comment,
+          replies: feedbackData.filter(c => c.reply_to_id === comment.id)
+        });
+      }
+      return acc;
+    }, [] as FeedbackCommentWithUserProps[]);
+
+    return { data: commentsWithReplies, error: null };
   }
 );
 
@@ -163,124 +94,83 @@ export const getCommentsForFeedbackById = withFeedbackAuth<FeedbackCommentWithUs
 export const deleteCommentForFeedbackById = (
   commentId: string,
   feedbackId: string,
-  projectSlug: string,
-  cType: 'server' | 'route'
+  projectSlug: string
 ) =>
-  withFeedbackAuth<FeedbackCommentProps['Row']>(async (user, supabase, feedback, project, error) => {
-    // If any errors, return error
-    if (error) {
-      return { data: null, error };
-    }
+  withFeedbackAuth(async (user, feedbackItem, project) => {
+    const comment = await database.feedback_comments.findUnique({
+      where: { id: commentId }
+    });
 
-    // Make sure comment exists
-    const { data: comment, error: commentError } = await supabase
-      .from('feedback_comments')
-      .select()
-      .eq('id', commentId)
-      .single();
-
-    // Check for errors
-    if (commentError) {
-      return { data: null, error: { message: commentError.message, status: 500 } };
-    }
-
-    // Check if comment exists
     if (!comment) {
-      return { data: null, error: { message: 'comment not found.', status: 404 } };
+      return { data: null, error: 'Comment not found' };
     }
 
-    // Make sure user is the author of the comment
-    if (comment.user_id !== user!.id) {
-      return { data: null, error: { message: 'only the author of the comment can delete it.', status: 403 } };
+    if (comment.user_id !== user.id) {
+      return { data: null, error: 'Only the author can delete this comment' };
     }
 
-    // Delete comment
-    const { data: deletedComment, error: deletedCommentError } = await supabase
-      .from('feedback_comments')
-      .delete()
-      .eq('id', commentId)
-      .select()
-      .single();
+    // Use transaction to ensure both operations complete
+    const [deletedComment] = await database.$transaction([
+      database.feedback_comments.delete({
+        where: { id: commentId }
+      }),
+      database.feedback.update({
+        where: { id: feedbackItem.id },
+        data: { comment_count: { decrement: 1 } }
+      })
+    ]);
 
-    // Check for errors
-    if (deletedCommentError) {
-      return { data: null, error: { message: deletedCommentError.message, status: 500 } };
-    }
-
-    // Decrement comment count
-    const { error: feedbackError } = await supabase
-      .from('feedback')
-      .update({ comment_count: feedback!.comment_count - 1 })
-      .eq('id', feedback!.id);
-
-    if (feedbackError) {
-      return { data: null, error: { message: feedbackError.message, status: 500 } };
-    }
-
-    // Return deletedComment
     return { data: deletedComment, error: null };
-  })(feedbackId, projectSlug, cType);
+  })(feedbackId, projectSlug);
 
 // Upvote comment for feedback by id
 export const upvoteCommentForFeedbackById = (
   commentId: string,
   feedbackId: string,
-  projectSlug: string,
-  cType: 'server' | 'route'
+  projectSlug: string
 ) =>
-  withFeedbackAuth<FeedbackCommentWithUserProps>(async (user, supabase, feedback, project, error) => {
-    // If any errors, return error
-    if (error) {
-      return { data: null, error };
-    }
+  withFeedbackAuth(async (user, feedbackItem, project) => {
+    const comment = await database.feedback_comments.findUnique({
+      where: { id: commentId },
+      include: { profiles: true }
+    });
 
-    // Make sure comment exists
-    const { data: comment, error: commentError } = await supabase
-      .from('feedback_comments')
-      .select()
-      .eq('id', commentId)
-      .single();
-
-    // Check for errors
-    if (commentError) {
-      return { data: null, error: { message: commentError.message, status: 500 } };
-    }
-
-    // Check if comment exists
     if (!comment) {
-      return { data: null, error: { message: 'comment not found.', status: 404 } };
+      return { data: null, error: 'Comment not found' };
     }
 
-    if (!comment.upvoters) {
-      comment.upvoters = []; // Initialize upvoters array if it doesn't exist
-    }
+    const isUserUpvoted = comment.upvoters.includes(user.id);
+    const newUpvoters = isUserUpvoted
+      ? comment.upvoters.filter(id => id !== user.id)
+      : [...comment.upvoters, user.id];
 
-    const isUserUpvoted = comment.upvoters.includes(user!.id);
+    const updatedComment = await database.feedback_comments.update({
+      where: { id: commentId },
+      data: {
+        upvoters: newUpvoters,
+        upvotes: BigInt(newUpvoters.length)
+      },
+      include: { profiles: true }
+    });
 
-    const { data: updatedComment, error: updatedCommentError } = await supabase
-      .from('feedback_comments')
-      .update({
-        upvoters: isUserUpvoted
-          ? comment.upvoters.filter((upvoter) => upvoter !== user!.id)
-          : comment.upvoters.concat(user!.id),
-        upvotes: isUserUpvoted ? comment.upvotes - 1 : comment.upvotes + 1,
-      })
-      .eq('id', commentId)
-      .select()
-      .single();
+    // Transform to FeedbackCommentWithUserProps
+    const teamMember = await database.project_members.findFirst({
+      where: {
+        project_id: project.id,
+        member_id: updatedComment.user_id
+      }
+    });
 
-    if (updatedCommentError) {
-      return { data: null, error: { message: updatedCommentError.message, status: 500 } };
-    }
-
-    // Convert comments to FeedbackCommentWithUserProps[]
-    const feedbackData = updatedComment as unknown as FeedbackCommentWithUserProps;
-
-    // Check if user has upvoted any comments
-    if (feedbackData.upvoters) {
-      feedbackData.has_upvoted = feedbackData.upvoters.includes(user!.id);
-    }
-
-    // Return updatedComment
-    return { data: feedbackData, error: null };
-  })(feedbackId, projectSlug, cType);
+    return {
+      data: {
+        ...updatedComment,
+        user: {
+          ...updatedComment.profiles,
+          isTeamMember: !!teamMember
+        },
+        has_upvoted: newUpvoters.includes(user.id),
+        replies: []
+      },
+      error: null
+    };
+  })(feedbackId, projectSlug);

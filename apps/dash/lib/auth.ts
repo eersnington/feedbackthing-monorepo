@@ -2,7 +2,7 @@ import { database } from '@repo/database';
 import type { projects, feedback, profiles } from '@prisma/client';
 import { auth } from '@repo/auth/server';
 
-export function withUserAuth(action: (user: profiles) => Promise<{ data: any; error: null } | { data: null; error: { status : number, message: string} }>) {
+export function withUserAuth(action: (user: profiles) => Promise<{ data: any; error: null } | { data: null; error: { status : number, message: string} }| { data: null; error: string }>) {
   return async () => {
     const { userId } = await auth();
     

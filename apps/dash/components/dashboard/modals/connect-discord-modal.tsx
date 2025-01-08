@@ -16,7 +16,7 @@ import { Button } from '@repo/design-system/components/ui/button';
 import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
 import { sendDiscordConfirmation } from '@/lib/api/integrations';
-import { Icons } from '@/components/shared/icons/icons-static';
+import { Loader2 } from 'lucide-react';
 
 export default function DiscordIntegrationModal({
   projectSlug,
@@ -103,7 +103,7 @@ export default function DiscordIntegrationModal({
     <ResponsiveDialog open={open} onOpenChange={setOpen}>
       <ResponsiveDialogTrigger asChild>
         <Button variant='outline' disabled={isLoading} className='text-foreground/70 font-normal'>
-          {isLoading ? <Icons.Spinner className='mr-2 h-4 w-4 animate-spin' /> : null}
+          {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : null}
           Connect
         </Button>
       </ResponsiveDialogTrigger>
@@ -177,7 +177,7 @@ export default function DiscordIntegrationModal({
               (role !== '' && isNaN(parseInt(role))) ||
               isLoading
             }>
-            {isLoading ? <Icons.Spinner className='mr-2 h-4 w-4 animate-spin' /> : null}
+            {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : null}
             Connect
           </Button>
         </ResponsiveDialogFooter>

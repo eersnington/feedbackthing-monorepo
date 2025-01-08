@@ -1,10 +1,11 @@
+import { projects } from '@prisma/client';
 import { FeedbackWithUserProps, ProjectConfigWithoutSecretProps, ProjectProps } from '../types';
 import { formatHtmlToMd, formatRootUrl } from '../utils';
 
 // Helper function to send a Discord notification
 export const sendDiscordNotification = async (
   feedback: FeedbackWithUserProps,
-  project: ProjectProps['Row'],
+  project: projects,
   projectConfig: ProjectConfigWithoutSecretProps
 ) => {
   // Convert html syntax to markdown
@@ -18,7 +19,7 @@ export const sendDiscordNotification = async (
     },
     body: JSON.stringify({
       username: `${project.name} | Feedback`,
-      avatar_url: project.icon ? project.icon : 'https://feedbase.app/icon-512x512.png',
+      avatar_url: project.icon ? project.icon : 'https://www.feedbackthing.pro/android-chrome-512x512.png',
       content: projectConfig.integration_discord_role_id
         ? `<@&${projectConfig.integration_discord_role_id}>`
         : '',
@@ -41,12 +42,12 @@ export const sendDiscordNotification = async (
             },
           ],
           author: {
-            name: feedback.user.full_name,
+            name: feedback.user.first_name,
             icon_url: feedback.user.avatar_url,
           },
           footer: {
-            text: 'Powered By Feedbase',
-            icon_url: 'https://feedbase.app/icon-512x512.png',
+            text: 'Powered By Feedbackthing',
+            icon_url: 'https://www.feedbackthing.pro/android-chrome-512x512.png',
           },
         },
       ],
@@ -70,8 +71,8 @@ export const sendDiscordConfirmation = async (
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username: `Feedbase | Feedback`,
-      avatar_url: 'https://feedbase.app/icon-512x512.png',
+      username: `Feedbackthing | Feedback`,
+      avatar_url: 'https://www.feedbackthing.pro/android-chrome-512x512.png',
       content: roleId ? `<@&${roleId}>` : '',
       embeds: [
         {
@@ -91,7 +92,7 @@ export const sendDiscordConfirmation = async (
 // Helper function to send a Slack notification
 export const sendSlackNotification = async (
   feedback: FeedbackWithUserProps,
-  project: ProjectProps['Row'],
+  project: projects,
   projectConfig: ProjectConfigWithoutSecretProps
 ) => {
   // Convert html syntax to markdown
@@ -122,10 +123,10 @@ export const sendSlackNotification = async (
               short: false,
             },
           ],
-          author_name: feedback.user.full_name,
+          author_name: feedback.user.first_name,
           author_icon: feedback.user.avatar_url,
-          footer: 'Powered By Feedbase',
-          footer_icon: 'https://feedbase.app/icon-512x512.png',
+          footer: 'Powered By Feedbackthing',
+          footer_icon: 'https://www.feedbackthing.pro/android-chrome-512x512.png',
           ts: Math.floor(Date.now() / 1000),
         },
       ],
@@ -148,8 +149,8 @@ export const sendSlackConfirmation = async (projectSlug: string, webhook: string
           text: "If you're seeing this, it means that your Slack integration is working correctly.",
           color: '#05060a',
           title_link: formatRootUrl('dash', `/${projectSlug}`),
-          footer: 'Powered By Feedbase',
-          footer_icon: 'https://feedbase.app/icon-512x512.png',
+          footer: 'Powered By Feedbackthing',
+          footer_icon: 'https://www.feedbackthing.pro/android-chrome-512x512.png',
           ts: Math.floor(Date.now() / 1000),
         },
       ],

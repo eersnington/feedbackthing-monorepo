@@ -139,7 +139,7 @@ model project_configs {
   created_at                        DateTime   @default(now()) @db.Timestamptz(6)
   changelog_twitter_handle          String?
   changelog_preview_style           String     @default("summary")
-  project_id                        String     
+  project_id                        String     @unique
   integration_discord_status        Boolean    @default(false)
   integration_discord_webhook       String?
   integration_discord_role_id       String?

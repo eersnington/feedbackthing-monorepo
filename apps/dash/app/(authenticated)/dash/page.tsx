@@ -6,12 +6,18 @@ export default async function Projects() {
   const { data: projects, error } = await getUserProjects();
 
   if (error) {
-    // Redirect to login if the user is not authenticated
-    if (error.status === 401) {
-      return redirect('/login');
+    // Check if error is an object with status
+    if (
+      typeof error === 'object' &&
+      'status' in error &&
+      error.status === 401
+    ) {
+      return redirect('/sign-in');
     }
 
-    return <div>{error.message}</div>;
+    // Handle string or object error message
+    const errorMessage = typeof error === 'string' ? error : error.message;
+    return <div>{errorMessage}</div>;
   }
 
   // Redirect to the first project
@@ -19,9 +25,8 @@ export default async function Projects() {
     return redirect(`/${projects[0].slug}`);
   }
 
-  // TODO: Improve this and make this redirect to an onboarding page if the user has no projects
   return (
-    <div className="flex h-screen w-full items-center justify-center">
+    <div className="flex h-screen w-full flex-row items-center justify-center">
       <Onboarding />
     </div>
   );

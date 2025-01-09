@@ -66,7 +66,7 @@ export default function Onboarding() {
 
   return (
     <form onSubmit={onCreateProject}>
-      <Card className='px-3 py-4'>
+      <Card className='px-2 py-4 md:w-[24rem]'>
         <CardHeader>
           <CardTitle>Create your first project</CardTitle>
           <CardDescription>Create a new project to get rolling.</CardDescription>

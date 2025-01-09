@@ -1,15 +1,13 @@
 import { internal_runWithWaitUntil as waitUntil } from 'next/dist/server/web/internal-edge-wait-until';
 import { withFeedbackAuth, withProjectAuth } from '../auth';
 import {
-  FeedbackProps,
-  FeedbackTagProps,
   FeedbackWithUserInputProps,
   FeedbackWithUserProps,
 } from '../types';
 import { isValidEmail } from '../utils';
 import { sendDiscordNotification, sendSlackNotification } from './integrations';
 import { database } from '@repo/database';
-import { InputJsonValue, JsonValue } from '@prisma/client/runtime/library';
+import { InputJsonValue } from '@prisma/client/runtime/library';
 
 // Create a feedback post
 export const createFeedback = (projectSlug: string, data: FeedbackWithUserInputProps) =>

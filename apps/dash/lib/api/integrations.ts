@@ -1,5 +1,5 @@
 import { projects } from '@prisma/client';
-import { FeedbackWithUserProps, ProjectConfigWithoutSecretProps, ProjectProps } from '../types';
+import { FeedbackWithUserProps, ProjectConfigWithoutSecretProps } from '../types';
 import { formatHtmlToMd, formatRootUrl } from '../utils';
 
 // Helper function to send a Discord notification

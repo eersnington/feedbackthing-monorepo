@@ -1,5 +1,6 @@
 export function isSlugValid(slug: string) {
   // check if slug contains invalid characters
+  // biome-ignore lint/performance/useTopLevelRegex: <explanation>
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.exec(slug.toLowerCase())) {
     return false;
   }
@@ -18,47 +19,50 @@ export function formatRootUrl(subdomain?: string, path?: string) {
 
 /* eslint-disable */
 /*biome-linter-disable*/
-// TODO: Fix eslint-disable
 export const formatHtmlToMd = (htmlString: string): string => {
-  // Replace <strong> with ** for bold text
-  htmlString = htmlString.replace(/<strong>(.*?)<\/strong>/g, '**$1**');
+  const transformations = [
+    // Bold text
+    (str: string) => str.replace(/<strong>(.*?)<\/strong>/g, '**$1**'),
 
-  // Replace <em> with * for italic text
-  htmlString = htmlString.replace(/<em>(.*?)<\/em>/g, '*$1*');
+    // Italic text
+    (str: string) => str.replace(/<em>(.*?)<\/em>/g, '*$1*'),
 
-  // Replace <a> with [text](url) for links
-  htmlString = htmlString.replace(/<a href="(.*?)">(.*?)<\/a>/g, '[$2]($1)');
+    // Links
+    (str: string) => str.replace(/<a href="(.*?)">(.*?)<\/a>/g, '[$2]($1)'),
 
-  // Replace <ul> and <li> with dashes for unordered lists
-  htmlString = htmlString.replace(/<ul>(.*?)<\/ul>/gs, (match, p1) => {
-    const listItems = p1.trim().replace(/<li>(.*?)<\/li>/g, '- $1');
-    return listItems;
-  });
+    // Unordered lists
+    (str: string) =>
+      str.replace(/<ul>(.*?)<\/ul>/gs, (_, p1) =>
+        p1.trim().replace(/<li>(.*?)<\/li>/g, '- $1')
+      ),
 
-  // Replace <ol> and <li> with numbers for ordered lists
-  htmlString = htmlString.replace(/<ol>(.*?)<\/ol>/gs, (match, p1) => {
-    const listItems = p1
-      .trim()
-      .replace(/<li>(.*?)<\/li>/g, (_: string, item: string) => `1. ${item}`);
-    return listItems;
-  });
+    // Ordered lists
+    (str: string) =>
+      str.replace(/<ol>(.*?)<\/ol>/gs, (_, p1) =>
+        p1
+          .trim()
+          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+          .replace(/<li>(.*?)<\/li>/g, (_: any, item: any) => `1. ${item}`)
+      ),
 
-  // Replace <p> tags with two spaces and a newline character
-  htmlString = htmlString.replace(/<p>(.*?)<\/p>/gs, '$1  \n');
+    // Paragraphs
+    (str: string) => str.replace(/<p>(.*?)<\/p>/gs, '$1  \n'),
 
-  // Replace <code> with backticks for inline code
-  htmlString = htmlString.replace(/<code>(.*?)<\/code>/g, '`$1`');
+    // Inline code
+    (str: string) => str.replace(/<code>(.*?)<\/code>/g, '`$1`'),
 
-  // Replace <pre> and <code> with triple backticks for code blocks
-  htmlString = htmlString.replace(
-    /<pre><code>(.*?)<\/code><\/pre>/gs,
-    '```\n$1\n```'
+    // Code blocks
+    (str: string) =>
+      str.replace(/<pre><code>(.*?)<\/code><\/pre>/gs, '```\n$1\n```'),
+
+    // Line breaks
+    (str: string) => str.replace(/<br\s*\/?>/g, '  \n'),
+  ];
+
+  return transformations.reduce(
+    (text, transform) => transform(text),
+    htmlString
   );
-
-  // Handle line breaks
-  htmlString = htmlString.replace(/<br\s*\/?>/g, '  \n');
-
-  return htmlString;
 };
 /* eslint-enable */
 
@@ -82,6 +86,7 @@ interface SWRError extends Error {
 
 // Fetcher function for SWR
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export async function fetcher<JSON = any>(
   input: RequestInfo,
   init?: RequestInit
@@ -100,12 +105,15 @@ export async function fetcher<JSON = any>(
 
 // Is valid email
 export function isValidEmail(email: string): boolean {
+  // biome-ignore lint/performance/useTopLevelRegex: <explanation>
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 // Hex to hsl
 export function hexToHSL(H: string | null | undefined) {
-  if (!H) return;
+  if (!H) {
+    return;
+  }
 
   // Convert hex to RGB first
   let r = 0,
@@ -132,14 +140,21 @@ export function hexToHSL(H: string | null | undefined) {
     s = 0,
     l = 0;
 
-  if (delta === 0) h = 0;
-  else if (cmax === r) h = ((g - b) / delta) % 6;
-  else if (cmax === g) h = (b - r) / delta + 2;
-  else h = (r - g) / delta + 4;
+  if (delta === 0) {
+    h = 0;
+  } else if (cmax === r) {
+    h = ((g - b) / delta) % 6;
+  } else if (cmax === g) {
+    h = (b - r) / delta + 2;
+  } else {
+    h = (r - g) / delta + 4;
+  }
 
   h = Math.round(h * 60);
 
-  if (h < 0) h += 360;
+  if (h < 0) {
+    h += 360;
+  }
 
   l = (cmax + cmin) / 2;
   s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
@@ -153,7 +168,9 @@ export function hexToHSL(H: string | null | undefined) {
 
 // hsl to hex
 export function hslToHex(hsl: string | null) {
-  if (!hsl) return;
+  if (!hsl) {
+    return;
+  }
 
   const [hStr, sStr, lStr] = hsl.replaceAll('%', '').split(' ');
 
@@ -171,9 +188,15 @@ export function hslToHex(hsl: string | null) {
     const hue2rgb = (p: number, q: number, t: number): number => {
       const t1: number = t < 0 ? t + 1 : t;
       const t2: number = t1 > 1 ? t1 - 1 : t1;
-      if (t2 < 1 / 6) return p + (q - p) * 6 * t2;
-      if (t2 < 1 / 2) return q;
-      if (t2 < 2 / 3) return p + (q - p) * (2 / 3 - t2) * 6;
+      if (t2 < 1 / 6) {
+        return p + (q - p) * 6 * t2;
+      }
+      if (t2 < 1 / 2) {
+        return q;
+      }
+      if (t2 < 2 / 3) {
+        return p + (q - p) * (2 / 3 - t2) * 6;
+      }
       return p;
     };
 
@@ -196,6 +219,7 @@ export function hslToHex(hsl: string | null) {
 // is valid url
 export function isValidUrl(url: string): boolean {
   if (
+    // biome-ignore lint/performance/useTopLevelRegex: <explanation>
     !/https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9]{1,6}\b(?:[-a-zA-Z0-9()!@:%_+.~#?&//=]*)/i.test(
       url.toLowerCase()
     )

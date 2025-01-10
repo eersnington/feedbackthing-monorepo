@@ -29,7 +29,7 @@ export default function ChangelogSection() {
       </h1>
 
       <p className="mt-2 w-[800px] max-w-full text-center font-light text-foreground/60 text-sm sm:text-base">
-        Feedbase adds a touch of enjoyment to help you keep your users informed
+        Feedbackthing adds a touch of enjoyment to help you keep your users informed
         through an appealing changelog that&apos;s simple to create and
         distribute.
       </p>
@@ -74,7 +74,7 @@ export default function ChangelogSection() {
                 <div className="flex flex-col gap-1.5 rounded-b-md bg-background p-3">
                   {/* url */}
                   <span className="font-light text-foreground/60 text-sm">
-                    hub.feedbase.app
+                    hub.feedbackthing.pro
                   </span>
 
                   {/* Title */}
@@ -99,7 +99,7 @@ export default function ChangelogSection() {
                 Markdown support
               </h1>
               <p className="mt-2 font-light text-foreground/60 text-sm">
-                Write changelog posts in markdown and Feedbase will
+                Write changelog posts in markdown and Feedbackthing will
                 automatically convert it to HTML.
               </p>
 

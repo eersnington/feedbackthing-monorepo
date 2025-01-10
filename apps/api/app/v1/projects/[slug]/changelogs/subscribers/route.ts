@@ -5,7 +5,9 @@ import { getChangelogSubscribers } from '@/lib/api/changelogs';
   GET /api/v1/projects/:slug/changelogs/subscribers/download
 */
 export async function GET(req: Request, context: { params: { slug: string } }) {
-  const { data: subscribers, error } = await getChangelogSubscribers(context.params.slug, 'route');
+  const { data: subscribers, error } = await getChangelogSubscribers(
+    context.params.slug
+  );
 
   // If any errors thrown, return error
   if (error) {
@@ -14,7 +16,7 @@ export async function GET(req: Request, context: { params: { slug: string } }) {
 
   // Create CSV
   const csv = `Email\n${subscribers
-    .map((subscriber) => {
+    .map((subscriber: { email: string }) => {
       return `${subscriber.email}\n`;
     })
     .join('')}`;

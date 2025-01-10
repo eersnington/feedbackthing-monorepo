@@ -150,8 +150,8 @@ export default function IntegrationCards({
               <div className='flex flex-row items-center space-x-2 border-b p-4'>
                 {/* Avatar */}
                 <Avatar>
-                  <AvatarImage src='https://feedbase.app/icon-512x512.png' alt='feedbase' />
-                  <AvatarFallback>FB</AvatarFallback>
+                  <AvatarImage src='https://www.feedbackthing.pro/android-chrome-512x512.png' alt='Feedbackthing' />
+                  <AvatarFallback>Fbt</AvatarFallback>
                 </Avatar>
 
                 {/* Name and Description */}

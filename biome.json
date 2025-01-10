@@ -13,7 +13,11 @@
       "apps/docs/**/*.json",
       "apps/email/.react-email/**",
       "apps/dash/lib/**",
-      "apps/dash/components/**"
+      "apps/dash/emails/**",
+      "apps/dash/components/**",
+      "apps/api/lib/**",
+      "apps/api/emails/**",
+      "apps/api/app/v1/**"
     ]
   }
 }

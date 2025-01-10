@@ -1,16 +1,19 @@
-import { NextResponse } from 'next/server';
 import { createProjectInvite, getProjectInvites } from '@/lib/api/invites';
+import { NextResponse } from 'next/server';
 
 /*
   Get all project invites
   GET /api/v1/projects/[slug]/invites
 */
 export async function GET(req: Request, context: { params: { slug: string } }) {
-  const { data: invites, error } = await getProjectInvites(context.params.slug, 'route');
+  const { data: invites, error } = await getProjectInvites(context.params.slug);
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return invites
@@ -24,7 +27,10 @@ export async function GET(req: Request, context: { params: { slug: string } }) {
     email: string
   }
 */
-export async function POST(req: Request, context: { params: { slug: string } }) {
+export async function POST(
+  req: Request,
+  context: { params: { slug: string } }
+) {
   const { email } = await req.json();
 
   // Check if email is valid
@@ -34,11 +40,17 @@ export async function POST(req: Request, context: { params: { slug: string } }) 
   }
 
   // Create invite
-  const { data: invite, error } = await createProjectInvite(context.params.slug, 'route', email);
+  const { data: invite, error } = await createProjectInvite(
+    context.params.slug,
+    email
+  );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return invite

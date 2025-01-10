@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { deleteChangelog, updateChangelog } from '@/lib/api/changelogs';
+import { NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 
@@ -15,19 +15,33 @@ export const runtime = 'edge';
         published: boolean;
     }
 */
-export async function PUT(req: Request, context: { params: { slug: string; id: string } }) {
-  const { title, summary, content, image, publishDate, published } = await req.json();
+export async function PUT(
+  req: Request,
+  context: { params: { slug: string; id: string } }
+) {
+  const { title, summary, content, image, publishDate, published } =
+    await req.json();
 
   const { data: changelog, error } = await updateChangelog(
     context.params.id,
     context.params.slug,
-    { title, summary, content, image, publish_date: publishDate, published },
-    'route'
+    {
+      title,
+      summary,
+      content,
+      image,
+      publish_date: publishDate,
+      published,
+      slug: context.params.slug,
+    }
   );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return changelog
@@ -38,12 +52,21 @@ export async function PUT(req: Request, context: { params: { slug: string; id: s
     Delete project changelog
     DELETE /api/v1/projects/[slug]/changelogs/[id]
 */
-export async function DELETE(req: Request, context: { params: { slug: string; id: string } }) {
-  const { data, error } = await deleteChangelog(context.params.id, context.params.slug, 'route');
+export async function DELETE(
+  req: Request,
+  context: { params: { slug: string; id: string } }
+) {
+  const { data, error } = await deleteChangelog(
+    context.params.id,
+    context.params.slug
+  );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return success

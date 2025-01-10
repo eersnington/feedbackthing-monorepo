@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
 import { createChangelog, getAllProjectChangelogs } from '@/lib/api/changelogs';
-import { ChangelogProps } from '@/lib/types';
+import type { ChangelogProps } from '@/lib/types';
+import { NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 
@@ -16,7 +16,10 @@ export const runtime = 'edge';
         published: boolean;
     }
 */
-export async function POST(req: Request, context: { params: { slug: string } }) {
+export async function POST(
+  req: Request,
+  context: { params: { slug: string } }
+) {
   const {
     title,
     summary,
@@ -24,16 +27,17 @@ export async function POST(req: Request, context: { params: { slug: string } }) 
     image,
     publish_date: publishDate,
     published,
-  } = (await req.json()) as ChangelogProps['Insert'];
+  } = (await req.json()) as ChangelogProps;
 
   // Validate Request Body
-  if (published) {
-    if (!title || !summary || !content) {
-      return NextResponse.json(
-        { error: 'title, summary, and content are required when publishing a changelog.' },
-        { status: 400 }
-      );
-    }
+  if (published && (!title || !summary || !content)) {
+    return NextResponse.json(
+      {
+        error:
+          'title, summary, and content are required when publishing a changelog.',
+      },
+      { status: 400 }
+    );
   }
 
   const { data: changelog, error } = await createChangelog(
@@ -48,13 +52,15 @@ export async function POST(req: Request, context: { params: { slug: string } }) 
       project_id: 'dummy-id',
       slug: 'dummy-slug',
       author_id: 'dummy-author',
-    },
-    'route'
+    }
   );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return changelog
@@ -66,11 +72,17 @@ export async function POST(req: Request, context: { params: { slug: string } }) 
     GET /api/v1/projects/[slug]/changelogs
 */
 export async function GET(req: Request, context: { params: { slug: string } }) {
-  const { data: changelogs, error } = await getAllProjectChangelogs(context.params.slug, 'route', true);
+  const { data: changelogs, error } = await getAllProjectChangelogs(
+    context.params.slug,
+    true
+  );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return changelogs

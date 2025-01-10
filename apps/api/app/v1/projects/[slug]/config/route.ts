@@ -1,17 +1,25 @@
+import {
+  getProjectConfigBySlug,
+  updateProjectConfigBySlug,
+} from '@/lib/api/projects';
+import type { ProjectConfigProps } from '@/lib/types';
 import { NextResponse } from 'next/server';
-import { getProjectConfigBySlug, updateProjectConfigBySlug } from '@/lib/api/projects';
-import { ProjectConfigProps } from '@/lib/types';
 
 /*
     Get Project Config by slug
     GET /api/v1/projects/[slug]/config
 */
 export async function GET(req: Request, context: { params: { slug: string } }) {
-  const { data: projectConfig, error } = await getProjectConfigBySlug(context.params.slug, 'route');
+  const { data: projectConfig, error } = await getProjectConfigBySlug(
+    context.params.slug
+  );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return project config
@@ -26,7 +34,10 @@ export async function GET(req: Request, context: { params: { slug: string } }) {
         changelog_twitter_handle: string;
     }
 */
-export async function PATCH(req: Request, context: { params: { slug: string } }) {
+export async function PATCH(
+  req: Request,
+  context: { params: { slug: string } }
+) {
   const {
     changelog_enabled: changelogEnabled,
     changelog_preview_style: changelogPreviewStyle,
@@ -40,7 +51,7 @@ export async function PATCH(req: Request, context: { params: { slug: string } })
     custom_theme_accent: customThemeAccent,
     custom_theme_border: customThemeBorder,
     logo_redirect_url: logoRedirectUrl,
-  } = (await req.json()) as ProjectConfigProps['Update'];
+  } = (await req.json()) as ProjectConfigProps;
 
   // Update project config
   const { data: updatedProjectConfig, error } = await updateProjectConfigBySlug(
@@ -58,13 +69,15 @@ export async function PATCH(req: Request, context: { params: { slug: string } })
       custom_theme_accent: customThemeAccent,
       custom_theme_border: customThemeBorder,
       logo_redirect_url: logoRedirectUrl,
-    },
-    'route'
+    }
   );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return updated project config

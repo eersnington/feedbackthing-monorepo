@@ -8,7 +8,9 @@ import { NextResponse } from 'next/server';
         "email": "email@email.com"
     }
 */
-export async function POST(req: Request) {
+
+// biome-ignore lint/suspicious/useAwait: <explanation>
+export async function POST(_req: Request) {
   // Return data
   return NextResponse.json({ error: 'Waitlist is closed.' }, { status: 400 });
 }

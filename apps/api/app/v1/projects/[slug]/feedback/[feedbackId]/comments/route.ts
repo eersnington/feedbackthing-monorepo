@@ -1,6 +1,9 @@
+import {
+  createCommentForFeedbackById,
+  getCommentsForFeedbackById,
+} from '@/lib/api/comments';
+import type { FeedbackCommentProps } from '@/lib/types';
 import { NextResponse } from 'next/server';
-import { createCommentForFeedbackById, getCommentsForFeedbackById } from '@/lib/api/comments';
-import { FeedbackCommentProps } from '@/lib/types';
 
 /* 
     Create feedback comment
@@ -9,11 +12,18 @@ import { FeedbackCommentProps } from '@/lib/types';
         content: string
     }
 */
-export async function POST(req: Request, context: { params: { slug: string; feedbackId: string } }) {
-  const { content, reply_to_id: replyToId } = (await req.json()) as FeedbackCommentProps['Insert'];
+export async function POST(
+  req: Request,
+  context: { params: { slug: string; feedbackId: string } }
+) {
+  const { content, reply_to_id: replyToId } =
+    (await req.json()) as FeedbackCommentProps;
 
   if (!content) {
-    return NextResponse.json({ error: 'Content cannot be empty' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Content cannot be empty' },
+      { status: 400 }
+    );
   }
 
   const { data: comment, error } = await createCommentForFeedbackById(
@@ -22,14 +32,18 @@ export async function POST(req: Request, context: { params: { slug: string; feed
       content: content || '',
       user_id: 'dummy-id',
       reply_to_id: replyToId || null,
+      upvotes: 0n,
+      upvoters: [],
     },
-    context.params.slug,
-    'route'
+    context.params.slug
   );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return comment
@@ -40,16 +54,21 @@ export async function POST(req: Request, context: { params: { slug: string; feed
     Get feedback comments
     GET /api/v1/projects/[slug]/feedback/[id]/comments
 */
-export async function GET(req: Request, context: { params: { slug: string; feedbackId: string } }) {
+export async function GET(
+  req: Request,
+  context: { params: { slug: string; feedbackId: string } }
+) {
   const { data: comments, error } = await getCommentsForFeedbackById(
     context.params.feedbackId,
-    context.params.slug,
-    'route'
+    context.params.slug
   );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return comments

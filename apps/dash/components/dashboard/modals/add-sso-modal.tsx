@@ -100,7 +100,7 @@ export default function AddSSOAuthModal({
             Visit the{' '}
             <Link
               className='text-foreground/80 hover:text-foreground font-light hover:underline'
-              href='https://docs.feedbase.app/integrations/sso'>
+              href='https://docs.feedbackthing.pro/integrations/sso'>
               documentation
             </Link>{' '}
             for more information.
@@ -115,7 +115,7 @@ export default function AddSSOAuthModal({
 
             <Input
               id='login'
-              placeholder='https://yourdomain.com/sso/feedbase'
+              placeholder='https://yourdomain.com/sso/feedbackthing'
               value={loginUrl}
               onChange={(event) => {
                 setLoginUrl(event.target.value);

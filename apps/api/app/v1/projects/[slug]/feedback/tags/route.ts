@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
 import { createFeedbackTag, getAllFeedbackTags } from '@/lib/api/feedback';
-import { FeedbackTagProps } from '@/lib/types';
+import type { FeedbackTagProps } from '@/lib/types';
+import { NextResponse } from 'next/server';
 
 /*
     Create new tag
@@ -10,21 +10,23 @@ import { FeedbackTagProps } from '@/lib/types';
         color: string
     }
 */
-export async function POST(req: Request, context: { params: { slug: string } }) {
-  const { name, color } = (await req.json()) as FeedbackTagProps['Insert'];
+export async function POST(
+  req: Request,
+  context: { params: { slug: string } }
+) {
+  const { name, color } = (await req.json()) as FeedbackTagProps;
 
-  const { data: tag, error } = await createFeedbackTag(
-    context.params.slug,
-    {
-      name: name || '',
-      color: color || '',
-    },
-    'route'
-  );
+  const { data: tag, error } = await createFeedbackTag(context.params.slug, {
+    name: name || '',
+    color: color || '',
+  });
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return tag
@@ -36,11 +38,14 @@ export async function POST(req: Request, context: { params: { slug: string } }) 
     GET /api/v1/projects/:slug/feedback/tags
 */
 export async function GET(req: Request, context: { params: { slug: string } }) {
-  const { data: tags, error } = await getAllFeedbackTags(context.params.slug, 'route');
+  const { data: tags, error } = await getAllFeedbackTags(context.params.slug);
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return tags

@@ -16,17 +16,18 @@ import { toast } from 'sonner';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
-import { ProfileProps } from '@/lib/types';
+import { profiles } from '@prisma/client';
 
 export default function UpdateProfileModal({
   user,
   children,
 }: {
-  user: ProfileProps['Row'];
+  user: profiles;
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const [name, setName] = useState<string>(user.full_name);
+  const [firstName, setFirstName] = useState<string>(user.first_name || '');
+  const [lastName, setLastName] = useState<string>(user.last_name || '');
   const [avatar, setAvatar] = useState<string>(user.avatar_url || '');
 
   async function onUpdateProfile() {
@@ -36,8 +37,9 @@ export default function UpdateProfileModal({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          full_name: name === user.full_name ? undefined : name,
+         body: JSON.stringify({
+          first_name: firstName === user.first_name ? undefined : firstName,
+          last_name: lastName === user.last_name ? undefined : lastName,
           avatar_url: avatar === user.avatar_url ? undefined : avatar,
         }),
       })
@@ -83,7 +85,8 @@ export default function UpdateProfileModal({
 
   // Set user data to the new one (due to data://urls)
   useEffect(() => {
-    setName(user.full_name);
+    setFirstName(user.first_name || '');
+    setLastName(user.last_name || '');
     setAvatar(user.avatar_url || '');
   }, [user]);
 
@@ -128,26 +131,41 @@ export default function UpdateProfileModal({
               Your profile picture, displayed publicly.
             </Label>
           </div>
-
-          {/* Full Name */}
+          {/* First Name */}
           <div className='flex flex-col gap-2'>
             <div className='flex flex-row items-center gap-2'>
-              <Label htmlFor='name'>Full Name</Label>
+              <Label htmlFor='firstName'>First Name</Label>
             </div>
 
             <Input
-              id='name'
-              placeholder='John Doe'
-              value={name}
-              onChange={(event) => {
-                setName(event.target.value);
-              }}
+              id='firstName'
+              placeholder='John'
+              value={firstName}
+              onChange={(event) => setFirstName(event.target.value)}
               className='col-span-3'
-              tabIndex={-1}
             />
 
             <Label className='text-foreground/50 text-xs font-extralight'>
-              Your full name, displayed publicly.
+              Your first name, displayed publicly.
+            </Label>
+          </div>
+
+          {/* Last Name */}
+          <div className='flex flex-col gap-2'>
+            <div className='flex flex-row items-center gap-2'>
+              <Label htmlFor='lastName'>Last Name</Label>
+            </div>
+
+            <Input
+              id='lastName'
+              placeholder='Doe'
+              value={lastName}
+              onChange={(event) => setLastName(event.target.value)}
+              className='col-span-3'
+            />
+
+            <Label className='text-foreground/50 text-xs font-extralight'>
+              Your last name, displayed publicly.
             </Label>
           </div>
 
@@ -171,7 +189,12 @@ export default function UpdateProfileModal({
           <Button
             type='submit'
             onClick={onUpdateProfile}
-            disabled={name === '' || (name === user.full_name && avatar === user.avatar_url)}>
+            disabled={
+              firstName === '' ||
+              (firstName === user.first_name &&
+                lastName === user.last_name &&
+                avatar === user.avatar_url)
+            }>
             Update Profile
           </Button>
         </ResponsiveDialogFooter>

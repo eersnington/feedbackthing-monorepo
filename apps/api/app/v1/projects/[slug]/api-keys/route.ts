@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { createProjectApiKey, getProjectApiKeys } from '@/lib/api/projects';
+import { NextResponse } from 'next/server';
 
 /*
   Get all API keys for a project
@@ -7,7 +7,7 @@ import { createProjectApiKey, getProjectApiKeys } from '@/lib/api/projects';
 */
 export async function GET(req: Request, context: { params: { slug: string } }) {
   // Get all api keys
-  const { data: apiKeys, error } = await getProjectApiKeys(context.params.slug, 'route');
+  const { data: apiKeys, error } = await getProjectApiKeys(context.params.slug);
 
   if (error) {
     return NextResponse.json(error, { status: error.status });
@@ -24,23 +24,34 @@ export async function GET(req: Request, context: { params: { slug: string } }) {
     "permissions": "string"
   }
 */
-export async function POST(req: Request, context: { params: { slug: string } }) {
-  const { name, permission } = (await req.json()) as { name: string; permission: string };
+export async function POST(
+  req: Request,
+  context: { params: { slug: string } }
+) {
+  const { name, permission } = (await req.json()) as {
+    name: string;
+    permission: string;
+  };
 
   // Validate input
   if (!name || !permission) {
-    return NextResponse.json({ error: 'name and permission are required' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'name and permission are required' },
+      { status: 400 }
+    );
   }
 
   // Create api key
   const { data: apiKey, error } = await createProjectApiKey(
     context.params.slug,
-    { name, permission },
-    'route'
+    { name, permission }
   );
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   return NextResponse.json(apiKey, { status: 200 });

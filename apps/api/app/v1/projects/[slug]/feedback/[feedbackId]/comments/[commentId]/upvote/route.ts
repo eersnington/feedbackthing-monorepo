@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { upvoteCommentForFeedbackById } from '@/lib/api/comments';
+import { NextResponse } from 'next/server';
 
 /*
     Upvote comment for feedback by id
@@ -12,13 +12,15 @@ export async function POST(
   const { data: comment, error } = await upvoteCommentForFeedbackById(
     context.params.commentId,
     context.params.feedbackId,
-    context.params.slug,
-    'route'
+    context.params.slug
   );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return comment

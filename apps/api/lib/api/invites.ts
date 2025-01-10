@@ -2,7 +2,6 @@ import { sendEmail } from '@/emails';
 import ProjectInviteEmail from '@/emails/project-invite';
 import { withProjectAuth, withUserAuth } from '../auth';
 import { database } from '@repo/database';
-import type { profiles, project_invites, projects } from '@prisma/client';
 import { formatRootUrl } from '../utils';
 
 // Get all project invites
@@ -38,7 +37,10 @@ export const getProjectInvite = (inviteId: string) =>
     });
 
     if (!invite) {
-      return { data: null, error: 'Invite not found' };
+      return { data: null, error: {
+        status: 404,
+        message: 'Invite not found'
+      } };
     }
 
     return { data: invite, error: null };
@@ -75,7 +77,10 @@ export const createProjectInvite = (slug: string, email: string) =>
     });
 
     if (existingInvite) {
-      return { data: null, error: 'User is already invited' };
+      return { data: null, error: {
+        status: 400,
+        message: 'User is already invited'
+      } };
     }
 
     // Create invite
@@ -109,7 +114,10 @@ export const createProjectInvite = (slug: string, email: string) =>
       await database.project_invites.delete({
         where: { id: invite.id }
       });
-      return { data: null, error: 'Failed to send invite email' };
+      return { data: null, error: {
+        status: 500,
+        message: 'Failed to send invite email'
+      } };
     }
 
     return { data: invite, error: null };
@@ -123,22 +131,34 @@ export const acceptProjectInvite = (inviteId: string) =>
     });
 
     if (!invite) {
-      return { data: null, error: 'Invite not found' };
+      return { data: null, error: {
+        status: 404,
+        message: 'Invite not found'
+      } };
     }
 
     if (invite.email !== user.email) {
-      return { data: null, error: 'Invalid invite' };
+      return { data: null, error: {
+        status: 403,
+        message: 'Invalid invite'
+      } };
     }
 
     const inviteExpiration = new Date(invite.created_at);
     inviteExpiration.setDate(inviteExpiration.getDate() + 7);
 
     if (inviteExpiration < new Date()) {
-      return { data: null, error: 'Invite has expired' };
+      return { data: null, error: {
+        status: 403,
+        message: 'Invite has expired'
+      } };
     }
 
     if (invite.accepted) {
-      return { data: null, error: 'Invite already accepted' };
+      return { data: null, error: {
+        status: 403,
+        message: 'Invite already accepted'
+      } };
     }
 
     try {
@@ -165,7 +185,10 @@ export const acceptProjectInvite = (inviteId: string) =>
 
       return { data: updatedInvite, error: null };
     } catch (error) {
-      return { data: null, error: 'Failed to accept invite' };
+      return { data: null, error: {
+        status: 500,
+        message: 'Failed to accept invite'
+      } };
     }
   });
 
@@ -188,6 +211,9 @@ export const deleteProjectInvite = (inviteId: string) =>
 
       return { data: deletedInvite, error: null };
     } catch (error) {
-      return { data: null, error: 'Failed to delete invite' };
+      return { data: null, error: {
+        status: 500,
+        message: 'Failed to delete invite'
+      }};
     }
   });

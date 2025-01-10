@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { deleteCommentForFeedbackById } from '@/lib/api/comments';
+import { NextResponse } from 'next/server';
 
 /*
     Delete comment for feedback by id
@@ -12,13 +12,15 @@ export async function DELETE(
   const { data: comment, error } = await deleteCommentForFeedbackById(
     context.params.commentId,
     context.params.feedbackId,
-    context.params.slug,
-    'route'
+    context.params.slug
   );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return comment

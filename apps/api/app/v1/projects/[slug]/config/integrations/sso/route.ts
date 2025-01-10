@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { updateProjectConfigBySlug } from '@/lib/api/projects';
+import { NextResponse } from 'next/server';
 
 /*
   Update SSO configuration
@@ -10,7 +10,10 @@ import { updateProjectConfigBySlug } from '@/lib/api/projects';
     secret: string,
   }
 */
-export async function PATCH(req: Request, context: { params: { slug: string } }) {
+export async function PATCH(
+  req: Request,
+  context: { params: { slug: string } }
+) {
   const { status, url, secret } = await req.json();
 
   if (status && (!url || !secret)) {
@@ -27,13 +30,15 @@ export async function PATCH(req: Request, context: { params: { slug: string } })
       integration_sso_status: status,
       integration_sso_url: status ? url : null,
       integration_sso_secret: status ? secret : null,
-    },
-    'route'
+    }
   );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return updated project config

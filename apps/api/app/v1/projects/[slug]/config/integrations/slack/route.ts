@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { updateProjectConfigBySlug } from '@/lib/api/projects';
+import { NextResponse } from 'next/server';
 
 /*
     Update Slack integration
@@ -9,7 +9,10 @@ import { updateProjectConfigBySlug } from '@/lib/api/projects';
         webhook: string,
     }
 */
-export async function PATCH(req: Request, context: { params: { slug: string } }) {
+export async function PATCH(
+  req: Request,
+  context: { params: { slug: string } }
+) {
   const { status, webhook } = (await req.json()) as {
     status: boolean;
     webhook: string;
@@ -29,13 +32,15 @@ export async function PATCH(req: Request, context: { params: { slug: string } })
     {
       integration_slack_status: status,
       integration_slack_webhook: status ? webhook : null,
-    },
-    'route'
+    }
   );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return updated project config

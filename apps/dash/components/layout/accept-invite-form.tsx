@@ -6,15 +6,16 @@ import { Avatar, AvatarFallback, AvatarImage } from '@repo/design-system/compone
 import { Button } from '@repo/design-system/components/ui/button';
 import { toast } from 'sonner';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@repo/design-system/components/ui/card';
-import { ExtendedInviteProps, ProfileProps } from '@/lib/types';
+import { ExtendedInviteProps } from '@/lib/types';
 import { formatRootUrl } from '@/lib/utils';
+import { profiles } from '@prisma/client';
 
 export default function ProjectInviteForm({
   invite,
   user,
 }: {
   invite: ExtendedInviteProps;
-  user: ProfileProps['Row'] | null;
+  user: profiles | null;
 }) {
   const router = useRouter();
 
@@ -62,9 +63,9 @@ export default function ProjectInviteForm({
         <Avatar className='border-border/80 h-14 w-14 rounded-md border'>
           <AvatarImage
             src={
-              invite.project.icon !== '' || invite.project.icon !== null
+              invite.project.icon && invite.project.icon !== ''
                 ? invite.project.icon
-                : `${formatRootUrl()}/icon-512x512.png`
+                : `https://www.feedbackthing.pro/android-chrome-512x512.png`
             }
             alt='Project Icon'
           />
@@ -76,8 +77,8 @@ export default function ProjectInviteForm({
           You&apos;ve been invited to join {invite.project.name}
         </CardTitle>
         <CardDescription className='text-center'>
-          {invite.creator.full_name} has invited you to join and collaborate on the project{' '}
-          <strong className='text-foreground/70'>{invite.project.name}</strong> on Feedbase.
+          {invite.creator.first_name} has invited you to join and collaborate on the project{' '}
+          <strong className='text-foreground/70'>{invite.project.name}</strong> on Feedbackthing.
         </CardDescription>
       </CardHeader>
       <CardContent className='flex flex-col gap-5'>

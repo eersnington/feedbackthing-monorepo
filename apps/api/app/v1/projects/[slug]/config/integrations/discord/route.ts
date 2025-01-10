@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { updateProjectConfigBySlug } from '@/lib/api/projects';
+import { NextResponse } from 'next/server';
 
 /*
     Update Discord integration
@@ -10,7 +10,10 @@ import { updateProjectConfigBySlug } from '@/lib/api/projects';
         roleId: string,
     }
 */
-export async function PATCH(req: Request, context: { params: { slug: string } }) {
+export async function PATCH(
+  req: Request,
+  context: { params: { slug: string } }
+) {
   const { status, webhook, roleId } = (await req.json()) as {
     status: boolean;
     webhook: string;
@@ -32,13 +35,15 @@ export async function PATCH(req: Request, context: { params: { slug: string } })
       integration_discord_status: status,
       integration_discord_webhook: status ? webhook : null,
       integration_discord_role_id: status ? roleId : null,
-    },
-    'route'
+    }
   );
 
   // If any errors thrown, return error
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return updated project config

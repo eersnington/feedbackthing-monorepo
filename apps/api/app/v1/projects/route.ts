@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
 import { createProject } from '@/lib/api/projects';
-import { getUserProjects } from '@repo/user/lib/api/user';
+import { getUserProjects } from '@/lib/api/user';
+import { NextResponse } from 'next/server';
 
 /*
     Create Project
@@ -16,18 +16,24 @@ export async function POST(req: Request) {
 
   // Validate Request Body
   if (!name || !slug) {
-    return NextResponse.json({ error: 'name and slug are required.' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'name and slug are required.' },
+      { status: 400 }
+    );
   }
 
   // Create Project
-  const { data: project, error } = await createProject({ name, slug }, 'route');
+  const result = await createProject({ name, slug })();
 
   // Check for errors
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+  if (result.error) {
+    return NextResponse.json(
+      { error: result.error.message },
+      { status: result.error.status }
+    );
   }
 
-  return NextResponse.json(project, { status: 201 });
+  return NextResponse.json(result.data, { status: 201 });
 }
 
 /*
@@ -35,12 +41,15 @@ export async function POST(req: Request) {
     GET /api/v1/projects
 */
 export async function GET(req: Request) {
-  // Get User Projects
-  const { data: projects, error } = await getUserProjects('route');
+  // Get User Projects 
+  const { data: projects, error } = await getUserProjects();
 
   // Check for errors
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    return NextResponse.json(
+      { error: error.message },
+      { status: error.status }
+    );
   }
 
   // Return projects

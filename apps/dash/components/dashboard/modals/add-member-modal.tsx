@@ -102,7 +102,7 @@ export default function InviteMemberDialog({
 
               <Input
                 id='email'
-                placeholder='member@feedbase.app'
+                placeholder='member@feedbackthing.pro'
                 value={email}
                 onChange={(event) => {
                   setEmail(event.target.value);

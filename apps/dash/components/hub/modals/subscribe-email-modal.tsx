@@ -31,7 +31,7 @@ export default function SubscribeToEmailUpdates({
   // Subscribe to email updates
   async function subscribeToEmailUpdates() {
     // Send request
-    const res = await fetch(`/api/v1/${projectSlug}/changelogs/subscribers`, {
+    const res = await formatRootUrl('api', `/api/v1/${projectSlug}/changelogs/subscribers`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

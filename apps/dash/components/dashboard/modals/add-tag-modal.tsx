@@ -77,7 +77,7 @@ export function CreateTagModal({
     }
 
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/feedback/tags`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/feedback/tags`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

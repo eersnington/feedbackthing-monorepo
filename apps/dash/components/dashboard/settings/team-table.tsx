@@ -60,7 +60,7 @@ export function TeamTable({
   // Revoke invite
   function revokeInvite(invite: ExtendedInviteProps) {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/invites/${invite.id}`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/invites/${invite.id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

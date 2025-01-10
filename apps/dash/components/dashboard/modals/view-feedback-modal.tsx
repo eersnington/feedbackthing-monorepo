@@ -60,7 +60,7 @@ export default function FeedbackModal({
   // Post comment
   async function onPostComment() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}/comments`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/feedback/${feedback.id}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ export default function FeedbackModal({
   // Update status
   async function onUpdateStatus(status: string) {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ export default function FeedbackModal({
     });
 
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ export default function FeedbackModal({
 
   async function onDeleteFeedback() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

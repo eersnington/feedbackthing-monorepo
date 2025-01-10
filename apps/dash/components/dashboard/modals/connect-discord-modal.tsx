@@ -61,7 +61,7 @@ export default function DiscordIntegrationModal({
     setOpen(false);
 
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/config/integrations/discord`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/config/integrations/discord`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

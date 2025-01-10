@@ -29,7 +29,7 @@ export default function HubConfigCards({
 
   async function handleSaveProject(noToast?: boolean) {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectData.slug}`, {
+      formatRootUrl('api', `/api/v1/projects/${projectData.slug}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export default function HubConfigCards({
   // handle save project config
   async function handleSaveProjectConfig() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectData.slug}/config`, {
+      formatRootUrl('api', `/api/v1/projects/${projectData.slug}/config`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -160,7 +160,7 @@ export default function HubConfigCards({
   // Handle download subscribers
   async function handleDownloadSubscribers() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectData.slug}/changelogs/subscribers`, {
+      formatRootUrl('api', `/api/v1/projects/${projectData.slug}/changelogs/subscribers`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

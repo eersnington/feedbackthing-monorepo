@@ -25,6 +25,7 @@ import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
 import { ProjectApiKeyProps } from '@/lib/types';
 import { Icons } from '@/components/shared/icons/icons-static';
+import { formatRootUrl } from '@/lib/utils';
 
 export default function AddApiKeyDialog({
   children,
@@ -48,7 +49,7 @@ export default function AddApiKeyDialog({
   // Create API Key
   async function createApiKey() {
     const promise = new Promise<ProjectApiKeyProps['Row']>((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/api-keys`, {
+      fetch(formatRootUrl('api', `/api/v1/projects/${projectSlug}/api-keys`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

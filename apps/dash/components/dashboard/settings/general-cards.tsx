@@ -105,7 +105,7 @@ export default function GeneralConfigCards({
 
   async function handleDeleteProject() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${project.slug}`, {
+      formatRootUrl('api', `/api/v1/projects/${project.slug}`, {
         method: 'DELETE',
       })
         .then((res) => res.json())
@@ -136,7 +136,7 @@ export default function GeneralConfigCards({
 
   async function handleSaveProject() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectData.slug}`, {
+      formatRootUrl('api', `/api/v1/projects/${projectData.slug}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -181,7 +181,7 @@ export default function GeneralConfigCards({
   // submit domain
   async function handleSubmitDomain() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectData.slug}/config/domain`, {
+      formatRootUrl('api', `/api/v1/projects/${projectData.slug}/config/domain`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -223,7 +223,7 @@ export default function GeneralConfigCards({
   // remove domain
   async function handleRemoveDomain() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectData.slug}/config/domain`, {
+      formatRootUrl('api', `/api/v1/projects/${projectData.slug}/config/domain`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -261,7 +261,7 @@ export default function GeneralConfigCards({
   // On revoke api key
   function handleRevokeApiKey(apiKey: ProjectApiKeyWithoutTokenProps) {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectData.slug}/api-keys/${apiKey.id}`, {
+      formatRootUrl('api', `/api/v1/projects/${projectData.slug}/api-keys/${apiKey.id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -310,7 +310,7 @@ export default function GeneralConfigCards({
         setDomainStatus('refreshing');
       }
 
-      fetch(`/api/v1/projects/${projectData.slug}/config/domain`)
+      formatRootUrl('api', `/api/v1/projects/${projectData.slug}/config/domain`)
         .then((res) => res.json())
         .then((data) => {
           if (data.error) {
@@ -332,7 +332,7 @@ export default function GeneralConfigCards({
   // handle export feedback
   function handleExportFeedback() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectData.slug}/feedback/export`)
+      formatRootUrl('api', `/api/v1/projects/${projectData.slug}/feedback/export`)
         .then((res) => res.blob())
         .then((blob) => {
           const url = window.URL.createObjectURL(blob);

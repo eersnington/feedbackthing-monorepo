@@ -100,12 +100,16 @@ export default function FeedbackTable({
     setFeedbackList(newFeedbackList);
 
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}/upvotes`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      formatRootUrl(
+        'api',
+        `/api/v1/projects/${projectSlug}/feedback/${feedback.id}/upvotes`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.error) {

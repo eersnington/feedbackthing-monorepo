@@ -18,7 +18,7 @@ export default function AnalyticsWrapper({
 }) {
   // Register View
   useEffect(() => {
-    fetch(`/api/v1/${projectSlug}/views`, {
+    formatRootUrl('api', `/api/v1/${projectSlug}/views`, {
       method: 'POST',
       body: JSON.stringify({
         feedbackId,

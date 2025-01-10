@@ -1,6 +1,4 @@
 'use client';
-import { usePathname, useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import {
   CommandDialog,
   CommandEmpty,
@@ -9,6 +7,8 @@ import {
   CommandItem,
   CommandList,
 } from '@repo/design-system/components/ui/command';
+import { usePathname, useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const colors = [
   {
@@ -75,7 +75,7 @@ export function CreateTagModal({
     }
 
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/feedback/tags`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/feedback/tags`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -110,10 +110,14 @@ export function CreateTagModal({
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder='Search color...' autoFocus className='font-light' />
-      <CommandList className='my-2' style={{ scrollbarWidth: 'none' }}>
+      <CommandInput
+        placeholder="Search color..."
+        autoFocus
+        className="font-light"
+      />
+      <CommandList className="my-2" style={{ scrollbarWidth: 'none' }}>
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup className='p-0'>
+        <CommandGroup className="p-0">
           {colors.map((color) => (
             <CommandItem
               key={color.name.toLowerCase()}
@@ -121,12 +125,16 @@ export function CreateTagModal({
                 onCreateTag(color.hex);
                 setOpen(false);
               }}
-              className='flex h-10 flex-row items-center gap-1 rounded-md font-light hover:cursor-pointer'>
+              className="flex h-10 flex-row items-center gap-1 rounded-md font-light hover:cursor-pointer"
+            >
               {/* Color */}
-              <div className='mt-[1px] ml-2 h-3 w-3 rounded-full' style={{ backgroundColor: color.hex }} />
+              <div
+                className="mt-[1px] ml-2 h-3 w-3 rounded-full"
+                style={{ backgroundColor: color.hex }}
+              />
 
               {/* Name */}
-              <span className='ml-2'>{color.name}</span>
+              <span className="ml-2">{color.name}</span>
             </CommandItem>
           ))}
         </CommandGroup>

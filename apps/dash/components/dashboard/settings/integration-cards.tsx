@@ -40,7 +40,7 @@ export default function IntegrationCards({
 
   async function disconnectIntegration(integration: string) {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/config/integrations/${integration}`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/config/integrations/${integration}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

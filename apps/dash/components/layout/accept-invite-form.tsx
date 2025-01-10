@@ -22,7 +22,7 @@ export default function ProjectInviteForm({
   // Accept invitation
   function acceptInvitation() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${invite.project.slug}/invites/${invite.id}`, {
+      formatRootUrl('api', `/api/v1/projects/${invite.project.slug}/invites/${invite.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

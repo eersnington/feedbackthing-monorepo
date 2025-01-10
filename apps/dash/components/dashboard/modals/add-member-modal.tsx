@@ -17,6 +17,7 @@ import { Button } from '@repo/design-system/components/ui/button';
 import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
 import { Icons } from '@/components/shared/icons/icons-static';
+import { formatRootUrl } from '@/lib/utils';
 
 export default function InviteMemberDialog({
   children,
@@ -39,7 +40,7 @@ export default function InviteMemberDialog({
   // Send invite
   function sendInvite() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/invites`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/invites`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

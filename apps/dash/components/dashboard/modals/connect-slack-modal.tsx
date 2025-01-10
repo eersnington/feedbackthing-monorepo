@@ -49,7 +49,7 @@ export default function SlackIntegrationModal({
     setOpen(false);
 
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/config/integrations/slack`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/config/integrations/slack`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

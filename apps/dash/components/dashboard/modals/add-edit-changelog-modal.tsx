@@ -33,6 +33,7 @@ import Editor from '@/components/dashboard/changelogs/content-editor';
 import { PublishDatePicker } from '@/components/dashboard/changelogs/date-picker';
 import FileDrop from '@/components/dashboard/changelogs/image-upload';
 import TooltipLabel from '@/components/shared/tooltip-label';
+import { formatRootUrl } from '@/lib/utils';
 
 export function AddChangelogModal({
   trigger,
@@ -71,7 +72,7 @@ export function AddChangelogModal({
     }
 
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/changelogs`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/changelogs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -121,7 +122,7 @@ export function AddChangelogModal({
     }
 
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/changelogs/${data.id}`, {
+      formatRootUrl('api', `/api/v1/projects/${projectSlug}/changelogs/${data.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

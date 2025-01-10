@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { Button } from '@repo/design-system/components/ui/button';
 import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
+import { formatRootUrl } from '@/lib/utils';
 
 export default function AddProjectDialog({ trigger }: { trigger: React.ReactNode }) {
   const [name, setName] = useState<string>('');
@@ -29,7 +30,7 @@ export default function AddProjectDialog({ trigger }: { trigger: React.ReactNode
 
   async function onCreateProject() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects`, {
+      formatRootUrl('api', `/api/v1/projects`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

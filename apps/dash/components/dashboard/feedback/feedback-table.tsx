@@ -12,6 +12,7 @@ import useCreateQueryString from '@/lib/hooks/use-create-query';
 import { FeedbackTagProps, FeedbackWithUserProps } from '@/lib/types';
 import FeedbackModal from '../modals/view-feedback-modal';
 import { statusOptions } from './status-combobox';
+import { formatRootUrl } from '@/lib/utils';
 
 export default function FeedbackTable({
   fetchedFeedback,
@@ -71,7 +72,7 @@ export default function FeedbackTable({
     setFeedbackList(newFeedbackList);
 
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}/upvotes`, {
+      fetch(formatRootUrl('api', `/api/v1/projects/${projectSlug}/feedback/${feedback.id}/upvotes`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

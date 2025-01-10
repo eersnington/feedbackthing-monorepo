@@ -28,7 +28,7 @@ export default function Onboarding() {
   async function onCreateProject(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects`, {
+      formatRootUrl('api', `/api/v1/projects`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

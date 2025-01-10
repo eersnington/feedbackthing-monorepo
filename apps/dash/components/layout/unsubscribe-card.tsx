@@ -18,7 +18,7 @@ export default function UnsubscribeChangelogCard({
   // on click unsubscribe
   async function unsubscribe() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/${project.slug}/changelogs/subscribers`, {
+      formatRootUrl('api', `/api/v1/${project.slug}/changelogs/subscribers`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

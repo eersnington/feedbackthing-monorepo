@@ -105,7 +105,7 @@ export default function FeedbackModal({
   // Update status
   async function onUpdateStatus(status: string) {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
+      fetch(formatRootUrl()), {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -163,15 +163,21 @@ export default function FeedbackModal({
     });
 
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          tags: tagObjArray.map((tag) => tag.id),
-        }),
-      })
+      fetch(
+        formatRootUrl(
+          'api',
+          `/api/v1/projects/${projectSlug}/feedback/${feedback.id}`
+        ),
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            tags: tagObjArray.map((tag) => tag.id),
+          }),
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.error) {
@@ -206,12 +212,18 @@ export default function FeedbackModal({
 
   async function onDeleteFeedback() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      fetch(
+        formatRootUrl(
+          'api',
+          `/api/v1/projects/${projectSlug}/feedback/${feedback.id}`
+        ),
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.error) {

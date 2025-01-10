@@ -17,6 +17,7 @@ import { Button } from '@repo/design-system/components/ui/button';
 import { Input } from '@repo/design-system/components/ui/input';
 import { Label } from '@repo/design-system/components/ui/label';
 import { profiles } from '@prisma/client';
+import { formatRootUrl } from '@/lib/utils';
 
 export default function UpdateProfileModal({
   user,
@@ -32,7 +33,7 @@ export default function UpdateProfileModal({
 
   async function onUpdateProfile() {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/profile`, {
+      fetch(formatRootUrl('api', `/api/v1/profile`), {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

@@ -1,8 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { PhotoIcon } from '@heroicons/react/24/outline';
-import { MoreVertical } from 'lucide-react';
+import { ImageOff, MoreVertical } from 'lucide-react';
 import { toast } from 'sonner';
 import {
   AlertDialog,
@@ -25,17 +24,18 @@ import {
 } from '@repo/design-system/components/ui/dropdown-menu';
 import { ChangelogProps } from '@/lib/types';
 import { AddChangelogModal } from '@/components/dashboard/modals/add-edit-changelog-modal';
+import { formatRootUrl } from '@/lib/utils';
 
 export default function ChangelogList({
   changelogs,
   projectSlug,
 }: {
-  changelogs: ChangelogProps['Row'][];
+  changelogs: ChangelogProps[];
   projectSlug: string;
 }) {
-  async function onDeleteChangelog(changelog: ChangelogProps['Row']) {
+  async function onDeleteChangelog(changelog: ChangelogProps) {
     const promise = new Promise((resolve, reject) => {
-      fetch(`/api/v1/projects/${projectSlug}/changelogs/${changelog.id}`, {
+      fetch(formatRootUrl('api', `/api/v1/projects/${projectSlug}/changelogs/${changelog.id}`), {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ export default function ChangelogList({
               <div className='border-input bg-background hover:bg-accent group relative mt-1 flex h-full w-full flex-col items-center justify-center rounded-md border shadow-sm transition-all'>
                 <div className='bg-background absolute flex h-full w-full items-center justify-center rounded-md'>
                   <div className='flex flex-col items-center justify-center'>
-                    <PhotoIcon className='text-foreground/50 h-8 w-8' />
+                    <ImageOff className='text-foreground/50 h-8 w-8' />
                     <p className='text-foreground/50 text-sm'>No image</p>
                   </div>
                 </div>
@@ -105,13 +105,13 @@ export default function ChangelogList({
             <div className='flex h-full w-[100%] flex-col gap-1'>
               <div className='flex flex-row gap-2'>
                 {/* If published is true, show published badge, else show draft badge */}
-                <Badge size='default' variant='secondary' className='self-start'>
+                <Badge variant='secondary' className='self-start'>
                   {changelog.published ? 'Published' : 'Draft'}
                 </Badge>
 
                 {/* If date is not undefined, show date */}
                 {changelog.publish_date ? (
-                  <Badge size='default' variant='secondary' className='shrink-0 self-start'>
+                  <Badge variant='secondary' className='shrink-0 self-start'>
                     {new Date(changelog.publish_date).toLocaleDateString('en-US', {
                       month: 'short',
                       day: 'numeric',

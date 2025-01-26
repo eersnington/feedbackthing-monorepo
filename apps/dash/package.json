@@ -36,7 +36,8 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "require-in-the-middle": "^7.4.0",
-    "sonner": "^1.7.1"
+    "sonner": "^1.7.1",
+    "swr": "^2.3.0"
   },
   "devDependencies": {
     "@repo/testing": "workspace:*",

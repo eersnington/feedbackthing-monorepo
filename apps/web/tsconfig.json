@@ -15,6 +15,7 @@
     "next.config.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "../../packages/design-system/components/ui/spotlight.tsx"  ]
+    ".next/types/**/*.ts",
+    "../../packages/design-system/components/ui/spotlight.tsx"
+  ]
 }

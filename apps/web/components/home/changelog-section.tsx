@@ -29,8 +29,8 @@ export default function ChangelogSection() {
       </h1>
 
       <p className="mt-2 w-[800px] max-w-full text-center font-light text-foreground/60 text-sm sm:text-base">
-        Feedbackthing adds a touch of enjoyment to help you keep your users informed
-        through an appealing changelog that&apos;s simple to create and
+        Feedbackthing adds a touch of enjoyment to help you keep your users
+        informed through an appealing changelog that&apos;s simple to create and
         distribute.
       </p>
 

@@ -2,7 +2,7 @@
 
 import { cn } from '@repo/design-system/lib/utils';
 import type React from 'react';
-import { useRef,  useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function BentoCardWrapper({
   className,

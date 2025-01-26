@@ -24,7 +24,7 @@ import type { FeedbackTagProps, FeedbackWithUserProps } from '@/lib/types';
 import { formatRootUrl } from '@repo/design-system/lib/utils';
 import { cn } from '@repo/design-system/lib/utils';
 import CommentEditor from '@repo/tiptap-editor/components/tiptap-editor';
-import { Hash, Link, MoreVertical, Trash2, User } from 'lucide-react';
+import { Hash, LinkIcon, MoreVertical, Trash, User } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -39,7 +39,7 @@ export default function FeedbackModal({
   children,
   className,
 }: {
-  tags: FeedbackTagProps[];
+  tags: FeedbackTagProps;
   feedback: FeedbackWithUserProps;
   children: React.ReactNode;
   setFeedbackList: React.Dispatch<
@@ -105,7 +105,7 @@ export default function FeedbackModal({
   // Update status
   async function onUpdateStatus(status: string) {
     const promise = new Promise((resolve, reject) => {
-      fetch(formatRootUrl()), {
+      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -149,12 +149,11 @@ export default function FeedbackModal({
   // Update tag
   async function onUpdateTag(tag: string[]) {
     // Get tag object
-    const tagObjArray = [] as FeedbackTagProps[];
+    const tagObjArray = [] as FeedbackTagProps;
 
-    // biome-ignore lint/complexity/noForEach: <explanation>
     tag.forEach((tag) => {
       const tagObj = tags.find(
-        (t) => t.name.toLowerCase() === tag.toLowerCase()
+        (t: { name: string }) => t.name.toLowerCase() === tag.toLowerCase()
       );
 
       if (tagObj) {
@@ -163,21 +162,15 @@ export default function FeedbackModal({
     });
 
     const promise = new Promise((resolve, reject) => {
-      fetch(
-        formatRootUrl(
-          'api',
-          `/api/v1/projects/${projectSlug}/feedback/${feedback.id}`
-        ),
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            tags: tagObjArray.map((tag) => tag.id),
-          }),
-        }
-      )
+      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tags: tagObjArray.map((tag: { id: any }) => tag.id),
+        }),
+      })
         .then((res) => res.json())
         .then((data) => {
           if (data.error) {
@@ -212,18 +205,12 @@ export default function FeedbackModal({
 
   async function onDeleteFeedback() {
     const promise = new Promise((resolve, reject) => {
-      fetch(
-        formatRootUrl(
-          'api',
-          `/api/v1/projects/${projectSlug}/feedback/${feedback.id}`
-        ),
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      fetch(`/api/v1/projects/${projectSlug}/feedback/${feedback.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
           if (data.error) {
@@ -281,7 +268,8 @@ export default function FeedbackModal({
                 copyToClipboard('id', feedback.id);
               }}
             >
-              <Hash className="h-4 w-4 stroke-2 stroke-white" />
+              {/* <Hash className='h-4 w-4' /> */}
+              <Hash className="h-4 w-4 fill-white stroke-[0.5px] stroke-white" />
               Copy ID
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -293,7 +281,7 @@ export default function FeedbackModal({
                 );
               }}
             >
-              <Link className="h-4 w-4 stroke-2 stroke-white" />
+              <LinkIcon className="h-4 w-4 stroke-2 stroke-white" />
               Copy Link
             </DropdownMenuItem>
 
@@ -315,7 +303,7 @@ export default function FeedbackModal({
                 className="flex flex-row items-center gap-2 font-extralight"
                 onClick={onDeleteFeedback}
               >
-                <Trash2 className="h-4 w-4 fill-white" />
+                <Trash className="h-4 w-4 fill-white" />
                 Delete
               </DropdownMenuItem>
             </ResponsiveDialogClose>
@@ -376,7 +364,7 @@ export default function FeedbackModal({
 
           {/* Tags */}
           <TagCombobox
-            projectTags={tags.map((tag) => ({
+            projectTags={tags.map((tag: { name: any; color: any }) => ({
               value: tag.name,
               label: tag.name,
               color: tag.color,

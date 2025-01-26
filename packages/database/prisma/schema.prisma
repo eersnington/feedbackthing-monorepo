@@ -40,11 +40,11 @@ model feedback {
   title             String
   description       String
   status            String?
-  upvotes           BigInt              @default(0)
+  upvotes           Int              @default(0)
   user_id           String              
   project_id        String              
   raw_tags          Json[]              @db.Json
-  comment_count     BigInt              @default(0)
+  comment_count     Int              @default(0)
   projects          projects            @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   profiles          profiles            @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   feedback_comments feedback_comments[]
@@ -58,7 +58,7 @@ model feedback_comments {
   feedback_id             String              
   content                 String
   created_at              DateTime            @default(now()) @db.Timestamptz(6)
-  upvotes                 BigInt              @default(0)
+  upvotes                 Int                 @default(0)
   upvoters                String[]            
   reply_to_id             String?             
   feedback                feedback            @relation(fields: [feedback_id], references: [id], onDelete: Cascade)

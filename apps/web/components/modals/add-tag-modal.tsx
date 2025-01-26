@@ -1,4 +1,5 @@
 'use client';
+import { formatApiUrl } from '@/lib/utils';
 import {
   CommandDialog,
   CommandEmpty,
@@ -75,7 +76,7 @@ export function CreateTagModal({
     }
 
     const promise = new Promise((resolve, reject) => {
-      formatRootUrl('api', `/api/v1/projects/${projectSlug}/feedback/tags`, {
+      fetch(formatApiUrl(`/api/v1/projects/${projectSlug}/feedback/tags`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

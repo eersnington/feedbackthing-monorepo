@@ -21,6 +21,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import FeedbackModal from '../modals/view-feedback-modal';
 import { statusOptions } from './status-combobox';
+import { formatApiUrl } from '@/lib/utils';
 
 export default function FeedbackTable({
   fetchedFeedback,
@@ -100,9 +101,8 @@ export default function FeedbackTable({
     setFeedbackList(newFeedbackList);
 
     const promise = new Promise((resolve, reject) => {
-      formatRootUrl(
-        'api',
-        `/api/v1/projects/${projectSlug}/feedback/${feedback.id}/upvotes`,
+      fetch(formatApiUrl(
+        `/api/v1/projects/${projectSlug}/feedback/${feedback.id}/upvotes`),
         {
           method: 'POST',
           headers: {
@@ -194,7 +194,7 @@ export default function FeedbackTable({
             </Button>
 
             <FeedbackModal
-              tags={tags}
+              tags={tags[0]}
               feedbackList={feedbackList}
               setFeedbackList={setFeedbackList}
               key={feedback.id}
